@@ -1,0 +1,18 @@
+extern void printi(double val)
+extern void printd(double val)
+
+int do_math(int a) {
+  int x = a * 5
+  x = x * x
+  return x + 3
+}
+
+double j = 1 / 0
+double x = 5 / 0
+int test = 10/2
+int deadVariable = 0
+printd(j)
+printd(x)
+printi(test)
+echo(do_math(11))
+echo(do_math(12))
