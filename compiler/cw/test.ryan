@@ -1,8 +1,0 @@
- int i0
- int i1
- int i2
- int i3
- i0 = 4 - 2
- i1 = i0 / 2
- i3 = i2 * i0
-
