@@ -1,4 +1,5 @@
-# QuantumPLToy
-Toy Quantum Programming Language, includes simulator and compiler.
+# SQASM
+Report.pdf to come soon (April 2016) and slidedeck also
+Documentation to follow
 
-WIP (To be finished by Apr 2016)
+SQASM contains both a quantum simulator (with Deutsch's algorithm implementation) and quantum arithmetic implementation and also a quantum programming language that interfaces to the simulator
