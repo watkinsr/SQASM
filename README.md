@@ -9,9 +9,8 @@ SQASM is positioned as a simple low-level quantum programming language that anyb
 
 ## Usage
 
-1. edit compile.sh to include ex.sqasm
-2. bash compile.sh
-3. profit
+1. bash compile.sh<file.sqasm>
+2. profit
 
 ## Contributing
 
