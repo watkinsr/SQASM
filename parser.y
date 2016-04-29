@@ -53,6 +53,7 @@ int set_tupitem(char* type, void* item, int pos);
 %token sel
 %token measure
 %token add
+%token peek
 %token <id>gate
 %token apply
 %token <num> number
@@ -74,9 +75,9 @@ line    : assignment			{;}
 		| exp		        {;}
         ;
 
-assignment : init term term  {
-	   printf("\n\n---INIT TERM TERM---\n"); 
-	   tup = get_pytup($3, " ", " ", "int", NULL, NULL, 1); 
+assignment : init term term term {
+	   printf("\n<INPUT: INIT %s %i %i>\n", $2, $3, $4);
+	   tup = get_pytup($3, $4, " ", "int", "int", NULL, 2); 
 	   ht_set(hashtable, $2, callpy("INITIALIZE", tup)); 
 	   ht_get( hashtable, $2 ); }
 	;
@@ -84,39 +85,45 @@ exp    	: term                  {$$ = $1;}
 	| exp '+' term          {$$ = $1 + $3;}
        	| exp '-' term          {$$ = $1 - $3;}
 	| add term term term	{
-	printf("\n\n---ADD TERM TERM TERM---\n");
+	printf("\n<INPUT: ADD %i %i %s>\n", $2, $3, $4);
 	tup=get_pytup($2, $3, " ", "int", "int", " ", 2);
 	ht_set(hashtable, $4, callpy("ADD", tup));
 	ht_get( hashtable, $4 ); }
 	| term tensor gate gate   {
-	printf("\n\n--- TERM TENSOR GATE GATE ---\n"); 
+	printf("\n<INPUT: %s TENSOR %s %s>\n", $1, $3, $4); 
 	tup = get_pytup($3, $4, " ", "str", "str", NULL, 2);
 	ht_set(hashtable, $1, callpy("t", tup));
 	ht_get( hashtable, $1 ); }
 	| term tensor term term {
-	printf("\n\n--- TERM TENSOR TERM TERM ---\n");
+	printf("\n<INPUT: %s TENSOR %s %s>\n", $1, $3, $4);
 	tup = get_pytup(ht_get(hashtable, $3), ht_get(hashtable, $4), " ", "py", "py", NULL, 2);
 	ht_set(hashtable, $1, callpy("t", tup));
 	ht_get( hashtable, $3 ); }
 	| apply term term	{ 
-	printf("\n\n--- APPLY TERM TERM ---\n"); 
+	printf("\n<INPUT: APPLY %s %s>\n", $2, $3); 
 	tup = get_pytup(ht_get(hashtable, $2), ht_get(hashtable, $3), " ", "py", "py", NULL, 2);
 	ht_set(hashtable, $3, callpy("APPLY", tup)); 
 	ht_get( hashtable, $3 ); 
 	}
 	| apply gate term 	{ 
-	printf("\n\n--- APPLY GATE TERM ---\n"); 
+	printf("\n<INPUT: APPLY GATE TERM>\n", $2, $3); 
 	tup = get_pytup($2, ht_get(hashtable, $3), " ", "str", "py", NULL, 2); 
 	ht_set(hashtable, $3, callpy("APPLY", tup));
 	ht_get( hashtable, $3 );}
 	| measure term term	{ 
-	printf("\n\n--- MEASURE TERM TERM ---\n"); 
+	printf("\n<INPUT: MEASURE %s %s", $2, $3);
+	printf(">\n"); 
 	tup = get_pytup(ht_get( hashtable, $2), " ", " ", "py", NULL, NULL, 1); 
 	ht_set(hashtable, $3, callpy("MEASURE", tup)); 
 	ht_get( hashtable, $3 ); }
+	| peek term term {
+	printf("\n<INPUT: PEEK %s %s", $2, $3);
+	printf(">\n"); 
+	tup = get_pytup(ht_get( hashtable, $2), " ", " ", "py", NULL, NULL, 1); 
+	ht_set(hashtable, $3, callpy("PEEK", tup)); 
+	ht_get( hashtable, $3 ); }
 	| sel term term term term { 
-	printf("\n\n--- SELECT TERM TERM TERM TERM ---\n");
-	printf("found args: %s, %s, %i, %i\n", $2, $3, $4, $5);
+	printf("\n<INPUT: SELECT %s %s %i %i>\n", $2, $3, $4, $5);
 	tup = get_pytup(ht_get(hashtable, $3), $4, $5, "py", "int", "int", 3); 
 	ht_set(hashtable, $2, callpy("SELECT", tup)); 
 	ht_get( hashtable, $2 ); } 
@@ -195,7 +202,7 @@ void ht_set( hashtable_t *hashtable, char *key, PyObject *value ) {
 	bin = ht_hash( hashtable, key );
 	next = hashtable->table[ bin ];
 
-	printf("SET HASH BIN: %i\n", bin);
+	printf("SET Hash[%i]\n", bin);
 
 	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
 		last = next;
@@ -232,7 +239,7 @@ PyObject *ht_get( hashtable_t *hashtable, char *key ) {
 	int bin = 0;
 	entry_t *pair;
 	bin = ht_hash( hashtable, key );
-	printf("Trying to receive key-pair from bin: %i\n", bin);
+	printf("GET Hash[%i] -> ", bin);
 	/* Step through the bin, looking for our value. */
 	pair = hashtable->table[ bin ];
 	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
@@ -245,7 +252,7 @@ PyObject *ht_get( hashtable_t *hashtable, char *key ) {
 		return key;
 
 	} else {
-		printf("HASHTABLE FOUND VAL FROM KEY: %s...\n", key);
+		printf("%s -> ", key);
 		PyObject_Print(pair->value, stdout, 0); printf("\n");
 		return pair->value;
 	}
@@ -263,20 +270,20 @@ PyObject* callpy(char* f_name, PyObject *tup)
 PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args) 
 {
 	tup = PyTuple_New(n_args);
-	printf("initialised tuple with %d args...\n", n_args);
+	//printf("initialised tuple with %d args...\n", n_args);
 	PyErr_Print();
 
 	if (a1 != " ") {
 		set_tupitem(t1, a1, 0);
-			// printf("SUCCESS set first tup item..\n");
+		// printf("SUCCESS set first tup item..\n");
 	}
 	if (a2 != " ") {
 		set_tupitem(t2, a2, 1);
-			// printf("SUCCESS set 2nd tup item...\n");
+		// printf("SUCCESS set 2nd tup item...\n");
 	}
 	if (a3 != " ") {
 		set_tupitem(t3, a3, 2);
-			// printf("SUCCESS set third tup item...\n");
+		// printf("SUCCESS set third tup item...\n");
 	}
 	return tup;
 }
@@ -307,7 +314,6 @@ PyObject* call_pyfunc()
 	if (PyCallable_Check(pFunc))
    	{
 		PyErr_Print();
-       		printf("Trying to call Quantum Simulator...\n");
        		presult = PyObject_CallObject(pFunc,tup);
 		PyErr_Print();
    	} else 

@@ -52,10 +52,11 @@ extern int yydebug;
     sel = 262,
     measure = 263,
     add = 264,
-    gate = 265,
-    apply = 266,
-    number = 267,
-    identifier = 268
+    peek = 265,
+    gate = 266,
+    apply = 267,
+    number = 268,
+    identifier = 269
   };
 #endif
 /* Tokens.  */
@@ -66,10 +67,11 @@ extern int yydebug;
 #define sel 262
 #define measure 263
 #define add 264
-#define gate 265
-#define apply 266
-#define number 267
-#define identifier 268
+#define peek 265
+#define gate 266
+#define apply 267
+#define number 268
+#define identifier 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -79,7 +81,7 @@ union YYSTYPE
 #line 47 "parser.y" /* yacc.c:1909  */
 int num; char* id;
 
-#line 83 "y.tab.h" /* yacc.c:1909  */
+#line 85 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

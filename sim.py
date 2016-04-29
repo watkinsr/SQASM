@@ -17,6 +17,7 @@ DEBUG = False
 
 # TODO: Fix multiplier - produce graphs of registers used and time spent in
 # processing tests..
+# TODO: ln 283: Should be a quantum operation
 
 
 """
@@ -75,7 +76,7 @@ class QSimulator:
         binNum = int(binNumStr, 2)
         states = [0] * len(r.amps)
         states[binNum] = 1
-        return self.applyGate(self.T, np.matrix(states).T)
+        return np.dot(T, np.matrix(states).T)
 
     def doPeresGate(self, r):
         self.applyGate(T, r)
@@ -114,15 +115,14 @@ class QSimulator:
         zeroProb = abs(zeroProb)
 
         if(oneProb > 0.999):
-            return 1  # self.alterStates(r, q, 0)
+            return 1
         elif(zeroProb > 0.999):
-            return 0  # self.alterStates(r, q, 1)
+            return 0
         else:
             print('Undefinite state detected: probabilistic collapse needed')
             zeroProb = math.ceil(zeroProb * 100)
             oneProb = math.ceil(oneProb * 100)
-            # int makes sure we haven't got a float...
-            probs = [0] * int(zeroProb) + [1] * int(oneProb)
+            probs = [0] * int(zeroProb) + [1] * int(oneProb)  # int stops floats
             choice = random.choice(probs)
             return choice
 
@@ -255,6 +255,7 @@ class Adder:
         log("BEGIN QMAJORITY PART OF QUANTUM RIPPLE ADDER")
         for i in range(1, nbits):
             tZero = self.tZeros[i]
+            # Prepare a register for Quantum Majority Gate
             r = self.getQMAReg(tZero, self.aOuts[i], self.bOuts[i], self.bZero)
 
             self.applyQuantumMajorityGate(r, qs)
@@ -278,7 +279,6 @@ class Adder:
         self.sOuts[0] = 0
 
         # Joins all the sums
-        # TODO: Should be a quantum operation
         result = int(''.join(map(str, self.sOuts)), 2)
 
         r = QReg(BIT_ARITHMETIC_AMOUNT, result)
@@ -338,17 +338,22 @@ class Adder:
     def twosCompliment(self, b):
         bState = ''.join(map(str, b))
         state = int(bState, 2)
-        print('Initial state before inversion: %s' % bState)
+        print('Initial binary state before inversion: %s' % bState)
+        print('Initial state before inversion: %s' % state)
         r = QReg(4, state)
+        print("Prior to one's compliment, amps: %s" % r.amps.T)
         qs.applyGate(t(NOT, ID, ID, ID), r)
         qs.applyGate(t(ID, NOT, ID, ID), r)
         qs.applyGate(t(ID, ID, NOT, ID), r)
         qs.applyGate(t(ID, ID, ID, NOT), r)
+        print("One's compliment amps: %s" % r.amps.T)
         m = qs.measureMQubits(r, 4)
-        print("Measurement inside twosCompliment(): %s" % m)
-
-        # res = APPLY([0, 0, 0, 1], m, 4, False)  # add one @end
-        res = getBinNum(res, 4)
+        print("One's compliment: %s" % m)
+        oc = int(''.join(map(str, m)), 2)
+        ocPlusOne = oc + 1
+        print("One's compliment integer value: %s" % oc)
+        print("One's compliment plus one: %s" % ocPlusOne)
+        res = getBinNum(ocPlusOne, BIT_ARITHMETIC_AMOUNT)
         log('After INVERT: %s' % res)
         return res
 
@@ -452,11 +457,11 @@ class Multiplier():
                     s = []  # s is the sum array of the and operations
 
                     for k in range(bLength - 1, -1, -1):
-                        print("Reg accessed for sum: %s" % (k + (l * bLength)))
+                        log("Reg accessed for sum: %s" % (k + (l * bLength)))
                         m = qs.measureMQubits(self.regs[k+(l * bLength)],
                                               bLength - 1)
-                        print("Measurement on reg %s" % m)
-                        print("Sum is appending val: %s" % (m[bLength - 4 + 2]))
+                        log("Measurement on reg %s" % m)
+                        log("Sum is appending val: %s" % (m[bLength - 4 + 2]))
                         s.append(m[bLength - 4 + 2])
                     for p in range(l):  # amount to start of binary
                         s.append(0)
@@ -469,9 +474,7 @@ class Multiplier():
                     self.sumRegs.append(QReg(bLength + l, bArrToDec(s)))
                     log('Summation of (%s)th line: %s\n' % (l, s))
 
-        print('REGISTERS USED IN PART ONE: %s\n' % (len(self.regs)
-                                                    + len(self.sumRegs)))
-        print('STARTING PART TWO')
+        print('REGISTERS IN P1: %s' % (len(self.regs) + len(self.sumRegs)))
         self.regs = []
         for i in range(len(self.sumRegs) - 1):
             st = time.clock()
@@ -486,12 +489,12 @@ class Multiplier():
             b = qs.measureMQubits(self.sumRegs[i + 1], bLength)
             # end2 = time.clock()
             # print('Time elapsed measuring b: %s' % (end2-st2))
-            print('a: %s' % a)
-            print('b: %s' % b)
+            log('a: %s' % a)
+            log('b: %s' % b)
             adder.setAdderBinaryValues(bArrToDec(a), bArrToDec(b))
             r, prevRes = adder.rippleCarryAdder(BIT_ARITHMETIC_AMOUNT, qs)
             end = time.clock()
-            print('Time elapsed for cycle[%s] in P2: %s' % (i, end-st))
+            print('Time elapsed for cycle[%s] in P2: %ss' % (i, end-st))
         res = prevRes
         self.sumRegs = []
         return res
@@ -505,7 +508,7 @@ class Multiplier():
             return int(''.join([str(i1), str(i2), str(i3), str(i4)]), 2)
 
     def prepMultiplier(self, n1, n2, b_amount=4):
-            print('Starting multiplier with bit amount: %s' % b_amount)
+            print('\nBEGIN MULTIPLIER[%s bits]' % b_amount)
             b1 = getBinNum(n1, b_amount)
             b2 = getBinNum(n2, b_amount)
             return b1, b2
@@ -563,8 +566,7 @@ def getBinNum(x, d_length=0):
 
 
 def log(s):
-    # For debugging purposes
-    if DEBUG:
+    if DEBUG:  # For debugging purposes
         print(s)
 
 
@@ -613,8 +615,8 @@ def SELECT(r, begin, end):
     return (qs.select(r, begin, end), r)
 
 
-def INITIALIZE(n):
-    return QReg(int(n))
+def INITIALIZE(n, pos):
+    return QReg(int(n), pos)
 
 
 def APPLY(gate, qreg):
@@ -636,6 +638,10 @@ def ADD(a, b):
     assert res == a + b
     print('SUCCESS: ADD')
     return r
+
+
+def PEEK(r):
+    return r.amps
 
 
 # Deutsch's algorithm functions
@@ -668,8 +674,8 @@ functionList = [
 # Testing functions
 def adderTest(adder, qs, k=0):
     print('BEGINNING ADDER TEST... DONE')
-    n1 = 7
-    n2 = 7
+    n1 = 10
+    n2 = 12
     adder.setAdderBinaryValues(n1, n2)
     log("Trying to do %s + %s" % (n1, n2))
     log('a: %s' % adder.bin_1)
@@ -678,7 +684,7 @@ def adderTest(adder, qs, k=0):
     print('ADD RESULT: %s + %s = %s' % (n1, n2, res))
     assert res == n1 + n2
     k = k + 1
-    print('TEST PASSED 4-BIT QUANTUM RIPPLE CARRY ADDER')
+    print('TEST PASSED 16-BIT QUANTUM RIPPLE CARRY ADDER')
     return res
 
 
@@ -687,7 +693,7 @@ def multiplierTest(qs, k=0):
     for i in range(3):
         a1 = 9 + i
         b1 = 9 + i
-        n1, n2 = m.prepMultiplier(a1, b1, 4)  # Creates binary versions of a1,b1
+        n1, n2 = m.prepMultiplier(a1, b1, 4)  # a1,b1 -> binary
         res = m.applyMultiplier(qs, n1, n2)
         print('MUL R: %s = %s * %s' % (res, bArrToDec(n1), bArrToDec(n2)))
         assert res == a1 * b1
@@ -764,21 +770,53 @@ def wrapperTests():
 
 def runTests(qs, adder, m):
     print('BEGINNING TESTS... DONE')
-    adderTest(adder, qs)
+    # adderTest(adder, qs)
     multiplierTest(qs)
-    peresGateTest(qs)
-    MTSGGateTest(qs)
-    qsimDeutschTest(qs)
-    wrapperTests()
+    # peresGateTest(qs)
+    # MTSGGateTest(qs)
+    # qsimDeutschTest(qs)
+    # wrapperTests()
     print('END OF TESTS... DONE')
 
+
+def pretty(reg, y=0):
+    x = "{0:b}".format(reg.argmax())
+    zeroes = ''
+    y = y + 2 if reg.argmax() <= 1 else y + 1 if reg.argmax() <= 3 else 0
+
+    for i in range(y):
+        zeroes = zeroes + '0'
+
+    return str('|' + zeroes + str(x) + '>')
 
 if __name__ == "__main__":
     adder = Adder()
     m = Multiplier()
     qs = QSimulator()
 
-    # -- TESTING -- #
+    # Bell states demonstration - Entanglement of states
+    #  reg = QReg(2, 2)  # Init state |00>
+
+    # Remember - computation basis for 2 qubit system ~ |00>, |01>, |10>, |11>
+    # qs.applyGate(t(HAD, ID), reg)  # Hadamard the first bit
+    # qs.applyGate(CNOT, reg)  # Apply CNOT
+
+    # print(reg.amps.T)  # readable form
+
+    # SWAP gate demonstration on two qubit system
+    # reg = QReg(2, 2)  # Init state |00>
+    # print(reg.amps.T)  # Before swap
+    # qs.applyGate(SWAP, reg)  # Apply SWAP gate
+    # print(reg.amps.T)  # After swap
+
+    # Classical computation NAND gate demonstration
+    reg = QReg(3)
+    print('NAND |001> -> %s' % pretty(qs.NAND(0, 0, QReg(3)).T))
+    print('NAND |011> -> %s' % pretty(qs.NAND(0, 1, QReg(3)).T))
+    print('NAND |101> -> %s' % pretty(qs.NAND(1, 0, QReg(3)).T))
+    print('NAND |111> -> %s' % pretty(qs.NAND(1, 1, QReg(3)).T))
+
+    # -- TESTING - #
     runTests(qs, adder, m)
 
     print('Starting up quantum simulator...   DONE')

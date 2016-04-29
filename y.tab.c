@@ -150,10 +150,11 @@ extern int yydebug;
     sel = 262,
     measure = 263,
     add = 264,
-    gate = 265,
-    apply = 266,
-    number = 267,
-    identifier = 268
+    peek = 265,
+    gate = 266,
+    apply = 267,
+    number = 268,
+    identifier = 269
   };
 #endif
 /* Tokens.  */
@@ -164,10 +165,11 @@ extern int yydebug;
 #define sel 262
 #define measure 263
 #define add 264
-#define gate 265
-#define apply 266
-#define number 267
-#define identifier 268
+#define peek 265
+#define gate 266
+#define apply 267
+#define number 268
+#define identifier 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -177,7 +179,7 @@ union YYSTYPE
 #line 47 "parser.y" /* yacc.c:355  */
 int num; char* id;
 
-#line 181 "y.tab.c" /* yacc.c:355  */
+#line 183 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -194,7 +196,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 198 "y.tab.c" /* yacc.c:358  */
+#line 200 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -434,23 +436,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  21
+#define YYFINAL  23
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   66
+#define YYLAST   74
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  16
+#define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  22
+#define YYNRULES  23
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  45
+#define YYNSTATES  49
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   268
+#define YYMAXUTOK   269
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -463,7 +465,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    14,     2,    15,     2,     2,     2,     2,
+       2,     2,     2,    15,     2,    16,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -485,16 +487,16 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    67,    67,    68,    69,    70,    71,    72,    73,    74,
-      77,    83,    84,    85,    86,    91,    96,   101,   107,   112,
-     117,   124,   125
+       0,    68,    68,    69,    70,    71,    72,    73,    74,    75,
+      78,    84,    85,    86,    87,    92,    97,   102,   108,   113,
+     119,   125,   131,   132
 };
 #endif
 
@@ -504,7 +506,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "print", "exit_command", "init",
-  "tensor", "sel", "measure", "add", "gate", "apply", "number",
+  "tensor", "sel", "measure", "add", "peek", "gate", "apply", "number",
   "identifier", "'+'", "'-'", "$accept", "line", "assignment", "exp",
   "term", YY_NULLPTR
 };
@@ -516,7 +518,7 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,    43,    45
+     265,   266,   267,   268,   269,    43,    45
 };
 # endif
 
@@ -534,11 +536,11 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      46,    53,    -6,    -2,    -2,    -2,    -2,    -5,    -6,    -6,
-      35,    -6,    17,     0,    17,    -2,    -2,    -2,    -2,    -2,
-      -2,    -6,    53,    -6,    -6,    17,    -2,    -2,     9,    -6,
-      -2,    -6,    -2,    -6,    -6,    17,    -6,    -6,    10,    -2,
-      -2,    -6,    -6,    -6,    -6
+      52,    60,    -6,    -2,    -2,    -2,    -2,    -2,    -5,    -6,
+      -6,    40,    -6,    19,     1,    19,    -2,    -2,    -2,    -2,
+      -2,    -2,    -2,    -6,    60,    -6,    -6,    19,    -2,    -2,
+      10,    -2,    -2,    -6,    -2,    -6,    -6,    -6,    19,    -6,
+      -6,    11,    -2,    -6,    -2,    -6,    -6,    -6,    -6
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -546,23 +548,23 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     3,     0,     0,     0,     0,     0,    21,    22,
-       0,     2,     9,    11,     4,     0,     0,     0,     0,     0,
-       0,     1,     0,     7,     5,     8,     0,     0,     0,    10,
-       0,    19,     0,    18,    17,     6,    12,    13,     0,     0,
-       0,    14,    15,    16,    20
+       0,     0,     3,     0,     0,     0,     0,     0,     0,    22,
+      23,     0,     2,     9,    11,     4,     0,     0,     0,     0,
+       0,     0,     0,     1,     0,     7,     5,     8,     0,     0,
+       0,     0,     0,    19,     0,    20,    18,    17,     6,    12,
+      13,     0,     0,    10,     0,    14,    15,    16,    21
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    16,     8,    -3
+      -6,    -6,    21,     9,    -3
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,    10,    11,    12,    13
+      -1,    11,    12,    13,    14
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -570,51 +572,53 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      15,    16,    17,    18,    20,    19,    28,     8,     9,    14,
-       8,     9,    29,    30,    31,    32,    33,    34,    25,    38,
-      42,     8,     9,    36,    37,    39,    24,    40,     0,    41,
-      35,    26,    27,     0,     0,    21,    43,    44,    22,    23,
-       3,     0,     4,     5,     6,     0,     7,     8,     9,     1,
-       2,     3,     0,     4,     5,     6,     0,     7,     8,     9,
-       4,     5,     6,     0,     7,     8,     9
+      16,    17,    18,    19,    20,    22,    21,    30,     9,    10,
+      15,     9,    10,    31,    32,    33,    34,    35,    36,    37,
+      27,    41,    46,     9,    10,    39,    40,    42,    43,    44,
+       0,    45,    26,    38,    28,    29,     0,     0,     0,    47,
+      23,    48,     0,    24,    25,     3,     0,     4,     5,     6,
+       7,     0,     8,     9,    10,     1,     2,     3,     0,     4,
+       5,     6,     7,     0,     8,     9,    10,     4,     5,     6,
+       7,     0,     8,     9,    10
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     6,     7,    10,     6,    12,    13,     1,
-      12,    13,    15,    16,    17,    18,    19,    20,    10,    10,
-      10,    12,    13,    26,    27,    28,    10,    30,    -1,    32,
-      22,    14,    15,    -1,    -1,     0,    39,    40,     3,     4,
-       5,    -1,     7,     8,     9,    -1,    11,    12,    13,     3,
-       4,     5,    -1,     7,     8,     9,    -1,    11,    12,    13,
-       7,     8,     9,    -1,    11,    12,    13
+       3,     4,     5,     6,     7,     8,    11,     6,    13,    14,
+       1,    13,    14,    16,    17,    18,    19,    20,    21,    22,
+      11,    11,    11,    13,    14,    28,    29,    30,    31,    32,
+      -1,    34,    11,    24,    15,    16,    -1,    -1,    -1,    42,
+       0,    44,    -1,     3,     4,     5,    -1,     7,     8,     9,
+      10,    -1,    12,    13,    14,     3,     4,     5,    -1,     7,
+       8,     9,    10,    -1,    12,    13,    14,     7,     8,     9,
+      10,    -1,    12,    13,    14
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     4,     5,     7,     8,     9,    11,    12,    13,
-      17,    18,    19,    20,    19,    20,    20,    20,    20,    10,
-      20,     0,     3,     4,    18,    19,    14,    15,     6,    20,
-      20,    20,    20,    20,    20,    19,    20,    20,    10,    20,
-      20,    20,    10,    20,    20
+       0,     3,     4,     5,     7,     8,     9,    10,    12,    13,
+      14,    18,    19,    20,    21,    20,    21,    21,    21,    21,
+      21,    11,    21,     0,     3,     4,    19,    20,    15,    16,
+       6,    21,    21,    21,    21,    21,    21,    21,    20,    21,
+      21,    11,    21,    21,    21,    21,    11,    21,    21
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    16,    17,    17,    17,    17,    17,    17,    17,    17,
-      18,    19,    19,    19,    19,    19,    19,    19,    19,    19,
-      19,    20,    20
+       0,    17,    18,    18,    18,    18,    18,    18,    18,    18,
+      19,    20,    20,    20,    20,    20,    20,    20,    20,    20,
+      20,    20,    21,    21
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     2,     2,     3,     2,     2,     1,
-       3,     1,     3,     3,     4,     4,     4,     3,     3,     3,
-       5,     1,     1
+       4,     1,     3,     3,     4,     4,     4,     3,     3,     3,
+       3,     5,     1,     1
 };
 
 
@@ -1291,167 +1295,178 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 67 "parser.y" /* yacc.c:1646  */
+#line 68 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1297 "y.tab.c" /* yacc.c:1646  */
+#line 1301 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 68 "parser.y" /* yacc.c:1646  */
+#line 69 "parser.y" /* yacc.c:1646  */
     {exit(EXIT_SUCCESS);}
-#line 1303 "y.tab.c" /* yacc.c:1646  */
+#line 1307 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 69 "parser.y" /* yacc.c:1646  */
+#line 70 "parser.y" /* yacc.c:1646  */
     {printf("Printing %d\n", (yyvsp[0].num));}
-#line 1309 "y.tab.c" /* yacc.c:1646  */
+#line 1313 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 70 "parser.y" /* yacc.c:1646  */
+#line 71 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1315 "y.tab.c" /* yacc.c:1646  */
+#line 1319 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 71 "parser.y" /* yacc.c:1646  */
+#line 72 "parser.y" /* yacc.c:1646  */
     {printf("Printing %d\n", (yyvsp[0].num));}
-#line 1321 "y.tab.c" /* yacc.c:1646  */
+#line 1325 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 72 "parser.y" /* yacc.c:1646  */
+#line 73 "parser.y" /* yacc.c:1646  */
     {exit(EXIT_SUCCESS);}
-#line 1327 "y.tab.c" /* yacc.c:1646  */
+#line 1331 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 73 "parser.y" /* yacc.c:1646  */
+#line 74 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1333 "y.tab.c" /* yacc.c:1646  */
+#line 1337 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 74 "parser.y" /* yacc.c:1646  */
+#line 75 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1339 "y.tab.c" /* yacc.c:1646  */
+#line 1343 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 77 "parser.y" /* yacc.c:1646  */
+#line 78 "parser.y" /* yacc.c:1646  */
     {
-	   printf("\n\n---INIT TERM TERM---\n"); 
-	   tup = get_pytup((yyvsp[0].num), " ", " ", "int", NULL, NULL, 1); 
-	   ht_set(hashtable, (yyvsp[-1].num), callpy("INITIALIZE", tup)); 
-	   ht_get( hashtable, (yyvsp[-1].num) ); }
-#line 1349 "y.tab.c" /* yacc.c:1646  */
+	   printf("\n<INPUT: INIT %s %i %i>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
+	   tup = get_pytup((yyvsp[-1].num), (yyvsp[0].num), " ", "int", "int", NULL, 2); 
+	   ht_set(hashtable, (yyvsp[-2].num), callpy("INITIALIZE", tup)); 
+	   ht_get( hashtable, (yyvsp[-2].num) ); }
+#line 1353 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 83 "parser.y" /* yacc.c:1646  */
+#line 84 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[0].num);}
-#line 1355 "y.tab.c" /* yacc.c:1646  */
+#line 1359 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 84 "parser.y" /* yacc.c:1646  */
+#line 85 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num);}
-#line 1361 "y.tab.c" /* yacc.c:1646  */
+#line 1365 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 85 "parser.y" /* yacc.c:1646  */
+#line 86 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num);}
-#line 1367 "y.tab.c" /* yacc.c:1646  */
+#line 1371 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 86 "parser.y" /* yacc.c:1646  */
+#line 87 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n\n---ADD TERM TERM TERM---\n");
+	printf("\n<INPUT: ADD %i %i %s>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
 	tup=get_pytup((yyvsp[-2].num), (yyvsp[-1].num), " ", "int", "int", " ", 2);
 	ht_set(hashtable, (yyvsp[0].num), callpy("ADD", tup));
 	ht_get( hashtable, (yyvsp[0].num) ); }
-#line 1377 "y.tab.c" /* yacc.c:1646  */
+#line 1381 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 91 "parser.y" /* yacc.c:1646  */
+#line 92 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n\n--- TERM TENSOR GATE GATE ---\n"); 
+	printf("\n<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].id), (yyvsp[0].id)); 
 	tup = get_pytup((yyvsp[-1].id), (yyvsp[0].id), " ", "str", "str", NULL, 2);
 	ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
 	ht_get( hashtable, (yyvsp[-3].num) ); }
-#line 1387 "y.tab.c" /* yacc.c:1646  */
+#line 1391 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 96 "parser.y" /* yacc.c:1646  */
+#line 97 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n\n--- TERM TENSOR TERM TERM ---\n");
+	printf("\n<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].num), (yyvsp[0].num));
 	tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
 	ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
 	ht_get( hashtable, (yyvsp[-1].num) ); }
-#line 1397 "y.tab.c" /* yacc.c:1646  */
+#line 1401 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 101 "parser.y" /* yacc.c:1646  */
+#line 102 "parser.y" /* yacc.c:1646  */
     { 
-	printf("\n\n--- APPLY TERM TERM ---\n"); 
+	printf("\n<INPUT: APPLY %s %s>\n", (yyvsp[-1].num), (yyvsp[0].num)); 
 	tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
 	ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup)); 
 	ht_get( hashtable, (yyvsp[0].num) ); 
 	}
-#line 1408 "y.tab.c" /* yacc.c:1646  */
+#line 1412 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 107 "parser.y" /* yacc.c:1646  */
+#line 108 "parser.y" /* yacc.c:1646  */
     { 
-	printf("\n\n--- APPLY GATE TERM ---\n"); 
+	printf("\n<INPUT: APPLY GATE TERM>\n", (yyvsp[-1].id), (yyvsp[0].num)); 
 	tup = get_pytup((yyvsp[-1].id), ht_get(hashtable, (yyvsp[0].num)), " ", "str", "py", NULL, 2); 
 	ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup));
 	ht_get( hashtable, (yyvsp[0].num) );}
-#line 1418 "y.tab.c" /* yacc.c:1646  */
+#line 1422 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 112 "parser.y" /* yacc.c:1646  */
+#line 113 "parser.y" /* yacc.c:1646  */
     { 
-	printf("\n\n--- MEASURE TERM TERM ---\n"); 
+	printf("\n<INPUT: MEASURE %s %s", (yyvsp[-1].num), (yyvsp[0].num));
+	printf(">\n"); 
 	tup = get_pytup(ht_get( hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1); 
 	ht_set(hashtable, (yyvsp[0].num), callpy("MEASURE", tup)); 
 	ht_get( hashtable, (yyvsp[0].num) ); }
-#line 1428 "y.tab.c" /* yacc.c:1646  */
+#line 1433 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 117 "parser.y" /* yacc.c:1646  */
-    { 
-	printf("\n\n--- SELECT TERM TERM TERM TERM ---\n");
-	printf("found args: %s, %s, %i, %i\n", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
-	tup = get_pytup(ht_get(hashtable, (yyvsp[-2].num)), (yyvsp[-1].num), (yyvsp[0].num), "py", "int", "int", 3); 
-	ht_set(hashtable, (yyvsp[-3].num), callpy("SELECT", tup)); 
-	ht_get( hashtable, (yyvsp[-3].num) ); }
-#line 1439 "y.tab.c" /* yacc.c:1646  */
+#line 119 "parser.y" /* yacc.c:1646  */
+    {
+	printf("\n<INPUT: PEEK %s %s", (yyvsp[-1].num), (yyvsp[0].num));
+	printf(">\n"); 
+	tup = get_pytup(ht_get( hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1); 
+	ht_set(hashtable, (yyvsp[0].num), callpy("PEEK", tup)); 
+	ht_get( hashtable, (yyvsp[0].num) ); }
+#line 1444 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 124 "parser.y" /* yacc.c:1646  */
-    {(yyval.num) = (yyvsp[0].num);}
-#line 1445 "y.tab.c" /* yacc.c:1646  */
+#line 125 "parser.y" /* yacc.c:1646  */
+    { 
+	printf("\n<INPUT: SELECT %s %s %i %i>\n", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
+	tup = get_pytup(ht_get(hashtable, (yyvsp[-2].num)), (yyvsp[-1].num), (yyvsp[0].num), "py", "int", "int", 3); 
+	ht_set(hashtable, (yyvsp[-3].num), callpy("SELECT", tup)); 
+	ht_get( hashtable, (yyvsp[-3].num) ); }
+#line 1454 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 125 "parser.y" /* yacc.c:1646  */
+#line 131 "parser.y" /* yacc.c:1646  */
+    {(yyval.num) = (yyvsp[0].num);}
+#line 1460 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 132 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[0].id);}
-#line 1451 "y.tab.c" /* yacc.c:1646  */
+#line 1466 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1455 "y.tab.c" /* yacc.c:1646  */
+#line 1470 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1679,7 +1694,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 128 "parser.y" /* yacc.c:1906  */
+#line 135 "parser.y" /* yacc.c:1906  */
                      /* C code */
 
 
@@ -1750,7 +1765,7 @@ void ht_set( hashtable_t *hashtable, char *key, PyObject *value ) {
 	bin = ht_hash( hashtable, key );
 	next = hashtable->table[ bin ];
 
-	printf("SET HASH BIN: %i\n", bin);
+	printf("SET Hash[%i]\n", bin);
 
 	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
 		last = next;
@@ -1787,7 +1802,7 @@ PyObject *ht_get( hashtable_t *hashtable, char *key ) {
 	int bin = 0;
 	entry_t *pair;
 	bin = ht_hash( hashtable, key );
-	printf("Trying to receive key-pair from bin: %i\n", bin);
+	printf("GET Hash[%i] -> ", bin);
 	/* Step through the bin, looking for our value. */
 	pair = hashtable->table[ bin ];
 	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
@@ -1800,7 +1815,7 @@ PyObject *ht_get( hashtable_t *hashtable, char *key ) {
 		return key;
 
 	} else {
-		printf("HASHTABLE FOUND VAL FROM KEY: %s...\n", key);
+		printf("%s -> ", key);
 		PyObject_Print(pair->value, stdout, 0); printf("\n");
 		return pair->value;
 	}
@@ -1818,20 +1833,20 @@ PyObject* callpy(char* f_name, PyObject *tup)
 PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args) 
 {
 	tup = PyTuple_New(n_args);
-	printf("initialised tuple with %d args...\n", n_args);
+	//printf("initialised tuple with %d args...\n", n_args);
 	PyErr_Print();
 
 	if (a1 != " ") {
 		set_tupitem(t1, a1, 0);
-			// printf("SUCCESS set first tup item..\n");
+		// printf("SUCCESS set first tup item..\n");
 	}
 	if (a2 != " ") {
 		set_tupitem(t2, a2, 1);
-			// printf("SUCCESS set 2nd tup item...\n");
+		// printf("SUCCESS set 2nd tup item...\n");
 	}
 	if (a3 != " ") {
 		set_tupitem(t3, a3, 2);
-			// printf("SUCCESS set third tup item...\n");
+		// printf("SUCCESS set third tup item...\n");
 	}
 	return tup;
 }
@@ -1862,7 +1877,6 @@ PyObject* call_pyfunc()
 	if (PyCallable_Check(pFunc))
    	{
 		PyErr_Print();
-       		printf("Trying to call Quantum Simulator...\n");
        		presult = PyObject_CallObject(pFunc,tup);
 		PyErr_Print();
    	} else 
