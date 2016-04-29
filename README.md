@@ -4,14 +4,14 @@ SQASM is positioned as a simple low-level quantum programming language that anyb
 
 ## Installation
 
-git clone .. 
-requires LEX, YACC and Python 2.7+
+1. git clone .. 
+2. requires LEX, YACC and Python 2.7+
 
 ## Usage
 
-edit compile.sh to include ex.sqasm
-bash compile.sh
-profit
+1. edit compile.sh to include ex.sqasm
+2. bash compile.sh
+3. profit
 
 ## Contributing
 
