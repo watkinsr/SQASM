@@ -31,4 +31,4 @@ Myself :)
 
 ## License
 
-TODO: Write license 
+MIT Licence 
