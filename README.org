@@ -2,7 +2,7 @@
 LEX/YACC
 
 * Usage
-./compile.sh <input>
+bash compile <input>
 
 * Example input(HADAMARD -> CNOT)
 #+BEGIN_SRC
