@@ -5,16 +5,18 @@ LEX/YACC
 ./compile.sh <input>
 
 * Example input(HADAMARD -> CNOT)
+#+BEGIN_SRC
 INITIALIZE R 2 0
 U TENSOR HAD ID
 APPLY U R
 APPLY CNOT R
 PEEK R RES
+#+END_SRC
 
 * Still left to do
--Rewrite in GNU Guile
--Include quantum algorithms
--Rewrite simulator to be fully quantum circuit driven
+** TODO Rewrite in GNU Guile
+** TODO Include quantum algorithms
+** TODO Rewrite simulator to be fully quantum circuit driven
 
 * Licence
 MIT
