@@ -1,5 +1,5 @@
 * Prerequisites
-LEX/YACC
+Flex/Bison
 
 * Usage
 bash compile <input>

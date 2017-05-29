@@ -1,3 +1,9 @@
-#! /bin/sh
+#!/bin/bash
 
-echo "yacc -d ./src/parser.y && lex ./src/lex.l && gcc -I/usr/include/python2.7 -lpython2.7 ./src/lex.yy.c ./src/y.tab.c -o qasm && ./qasm<$1" >> $1.log
+if [ -z "$1" ]
+  then
+    echo "ERROR: No input given"
+fi
+
+echo 'yacc -d src/parser.y && flex src/lex.l && gcc -I/usr/include/python2.7 -lpython2.7 lex.yy.c y.tab.c -o qasm' >> compile.log
+echo './qasm<$1' >> compile.log
