@@ -1,0 +1,14 @@
+* Description
+SQASM is an interpreted register based, simulated, quantum programming language.
+
+* Usage
+./compile.sh <input>
+# see ex[1-3].sqasm for some examples
+
+* Still left to do
+** TODO Rewrite in GNU Guile
+** TODO Include quantum algorithms
+** TODO Rewrite simulator to be fully quantum circuit driven
+
+* Licence
+MIT
