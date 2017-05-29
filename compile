@@ -5,5 +5,5 @@ if [ -z "$1" ]
     echo "ERROR: No input given"
 fi
 
-echo 'yacc -d src/parser.y && flex src/lex.l && gcc -I/usr/include/python2.7 -lpython2.7 lex.yy.c y.tab.c -o qasm' >> compile.log
-echo './qasm<$1' >> compile.log
+echo 'yacc -d src/parser.y && flex src/lex.l && gcc -I./lib -lpython2.7 lex.yy.c y.tab.c -o qasm' >> sqasm.log
+echo './qasm<$1' >> sqasm.log
