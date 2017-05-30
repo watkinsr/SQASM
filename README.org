@@ -2,10 +2,8 @@
 Flex/Bison
 Python 2.7
 Numpy(Python 2.7)
-
 * Usage
 compile foo.SQASM
-
 * Example input(HADAMARD -> CNOT)
 #+BEGIN_SRC
 INITIALIZE R 2 0
@@ -15,10 +13,11 @@ APPLY CNOT R
 PEEK R RES
 #+END_SRC
 
-* Still left to do
-** TODO Rewrite in GNU Guile
-** TODO Include quantum algorithms
-** TODO Rewrite simulator to be fully quantum circuit driven
+* todos
+** Package for Python
+** Rewrite in GNU Guile
+** Include quantum algorithms
+** Rewrite simulator to be fully quantum circuit driven
 
 * Licence
-MIT
+GNU GPL3
