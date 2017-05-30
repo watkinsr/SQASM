@@ -18,12 +18,13 @@ PEEK R RES
 #+END_SRC
 * TODOS
 + Package for Python
++ Wiki docs
 + Rewrite in GNU Guile
 + Include quantum algorithms
 + Rewrite simulator to be fully quantum circuit driven
 
-* DOCS
-+ [[https://github.com/watkinsr/SQASM/blob/master/docs/thesis.pdf][Thesis]]
-+ [[https://github.com/watkinsr/SQASM/blob/master/docs/slides.pdf][Slides]]
+* Documentation
++ [[https://github.com/watkinsr/sqasm-thesis/blob/master/thesis/thesis.pdf][Thesis]]
++ [[https://github.com/watkinsr/sqasm-thesis/blob/master/talks/slides_uor_may_2016.pdf][Slides]]
 * Licence
 GNU GPL3
