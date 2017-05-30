@@ -66,11 +66,13 @@
 
 #define _XOPEN_SOURCE 500 /* Enable certain library functions (strdup) on linux */
 
+#include "Python.h"
 #include <stdio.h>     /* C declarations used in actions */
 #include <stdlib.h>
 #include <limits.h>
+#include <errno.h>
+#include <assert.h>
 #include <string.h>
-#include <Python.h>
 
 int yylex();
 void yyerror (const char *s);
@@ -81,12 +83,11 @@ struct entry_s {
 	PyObject *value;
 	struct entry_s *next;
 };
-
 typedef struct entry_s entry_t;
 
 struct hashtable_s {
 	int size;
-	struct entry_s **table;	
+	struct entry_s **table;
 };
 typedef struct hashtable_s hashtable_t;
 
@@ -103,12 +104,12 @@ char str[15]; char str2[15];
 
 PyObject *pName, *pModule, *pDict, *pFunc, *pValue, *presult, *tup, *v, *v2;
 PyObject* callpy(char* f_name, PyObject* tup);
-PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args); 
+PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args);
 PyObject* call_pyfunc();
 
-int set_tupitem(char* type, void* item, int pos); 
+int set_tupitem(char* type, void* item, int pos);
 
-#line 112 "y.tab.c" /* yacc.c:339  */
+#line 113 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -176,10 +177,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 47 "parser.y" /* yacc.c:355  */
+#line 48 "parser.y" /* yacc.c:355  */
 int num; char* id;
 
-#line 183 "y.tab.c" /* yacc.c:355  */
+#line 184 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -196,7 +197,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 200 "y.tab.c" /* yacc.c:358  */
+#line 201 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -494,9 +495,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    68,    68,    69,    70,    71,    72,    73,    74,    75,
-      78,    84,    85,    86,    87,    92,    97,   102,   108,   113,
-     119,   125,   131,   132
+       0,    69,    69,    70,    71,    72,    73,    74,    75,    76,
+      79,    86,    87,    88,    89,    95,   101,   107,   113,   119,
+     126,   132,   139,   140
 };
 #endif
 
@@ -1295,178 +1296,185 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 68 "parser.y" /* yacc.c:1646  */
+#line 69 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1301 "y.tab.c" /* yacc.c:1646  */
+#line 1302 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 69 "parser.y" /* yacc.c:1646  */
+#line 70 "parser.y" /* yacc.c:1646  */
     {exit(EXIT_SUCCESS);}
-#line 1307 "y.tab.c" /* yacc.c:1646  */
+#line 1308 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 70 "parser.y" /* yacc.c:1646  */
+#line 71 "parser.y" /* yacc.c:1646  */
     {printf("Printing %d\n", (yyvsp[0].num));}
-#line 1313 "y.tab.c" /* yacc.c:1646  */
+#line 1314 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 71 "parser.y" /* yacc.c:1646  */
+#line 72 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1319 "y.tab.c" /* yacc.c:1646  */
+#line 1320 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 72 "parser.y" /* yacc.c:1646  */
+#line 73 "parser.y" /* yacc.c:1646  */
     {printf("Printing %d\n", (yyvsp[0].num));}
-#line 1325 "y.tab.c" /* yacc.c:1646  */
+#line 1326 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 73 "parser.y" /* yacc.c:1646  */
+#line 74 "parser.y" /* yacc.c:1646  */
     {exit(EXIT_SUCCESS);}
-#line 1331 "y.tab.c" /* yacc.c:1646  */
+#line 1332 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 74 "parser.y" /* yacc.c:1646  */
+#line 75 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1337 "y.tab.c" /* yacc.c:1646  */
+#line 1338 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 75 "parser.y" /* yacc.c:1646  */
+#line 76 "parser.y" /* yacc.c:1646  */
     {;}
-#line 1343 "y.tab.c" /* yacc.c:1646  */
+#line 1344 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 78 "parser.y" /* yacc.c:1646  */
+#line 79 "parser.y" /* yacc.c:1646  */
     {
-	   printf("\n<INPUT: INIT %s %i %i>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
-	   tup = get_pytup((yyvsp[-1].num), (yyvsp[0].num), " ", "int", "int", NULL, 2); 
-	   ht_set(hashtable, (yyvsp[-2].num), callpy("INITIALIZE", tup)); 
-	   ht_get( hashtable, (yyvsp[-2].num) ); }
-#line 1353 "y.tab.c" /* yacc.c:1646  */
+                printf("\n<INPUT: INIT %s %i %i>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
+                tup = get_pytup((yyvsp[-1].num), (yyvsp[0].num), " ", "int", "int", NULL, 2);
+                ht_set(hashtable, (yyvsp[-2].num), callpy("INITIALIZE", tup));
+                ht_get( hashtable, (yyvsp[-2].num) );
+            }
+#line 1355 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 84 "parser.y" /* yacc.c:1646  */
+#line 86 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[0].num);}
-#line 1359 "y.tab.c" /* yacc.c:1646  */
+#line 1361 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 85 "parser.y" /* yacc.c:1646  */
+#line 87 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num);}
-#line 1365 "y.tab.c" /* yacc.c:1646  */
+#line 1367 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 86 "parser.y" /* yacc.c:1646  */
+#line 88 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num);}
-#line 1371 "y.tab.c" /* yacc.c:1646  */
+#line 1373 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 87 "parser.y" /* yacc.c:1646  */
+#line 89 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n<INPUT: ADD %i %i %s>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
-	tup=get_pytup((yyvsp[-2].num), (yyvsp[-1].num), " ", "int", "int", " ", 2);
-	ht_set(hashtable, (yyvsp[0].num), callpy("ADD", tup));
-	ht_get( hashtable, (yyvsp[0].num) ); }
-#line 1381 "y.tab.c" /* yacc.c:1646  */
+                printf("\n<INPUT: ADD %i %i %s>\n", (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
+                tup=get_pytup((yyvsp[-2].num), (yyvsp[-1].num), " ", "int", "int", " ", 2);
+                ht_set(hashtable, (yyvsp[0].num), callpy("ADD", tup));
+                ht_get( hashtable, (yyvsp[0].num) );
+            }
+#line 1384 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 92 "parser.y" /* yacc.c:1646  */
+#line 95 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].id), (yyvsp[0].id)); 
-	tup = get_pytup((yyvsp[-1].id), (yyvsp[0].id), " ", "str", "str", NULL, 2);
-	ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
-	ht_get( hashtable, (yyvsp[-3].num) ); }
-#line 1391 "y.tab.c" /* yacc.c:1646  */
+                printf("<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].id), (yyvsp[0].id));
+                tup = get_pytup((yyvsp[-1].id), (yyvsp[0].id), " ", "str", "str", NULL, 2);
+                ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
+                ht_get( hashtable, (yyvsp[-3].num) );
+            }
+#line 1395 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 97 "parser.y" /* yacc.c:1646  */
+#line 101 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].num), (yyvsp[0].num));
-	tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
-	ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
-	ht_get( hashtable, (yyvsp[-1].num) ); }
-#line 1401 "y.tab.c" /* yacc.c:1646  */
+                printf("<INPUT: %s TENSOR %s %s>\n", (yyvsp[-3].num), (yyvsp[-1].num), (yyvsp[0].num));
+                tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
+                ht_set(hashtable, (yyvsp[-3].num), callpy("t", tup));
+                ht_get( hashtable, (yyvsp[-1].num) );
+            }
+#line 1406 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 102 "parser.y" /* yacc.c:1646  */
-    { 
-	printf("\n<INPUT: APPLY %s %s>\n", (yyvsp[-1].num), (yyvsp[0].num)); 
-	tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
-	ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup)); 
-	ht_get( hashtable, (yyvsp[0].num) ); 
+#line 107 "parser.y" /* yacc.c:1646  */
+    {
+                printf("<INPUT: APPLY %s %s>\n", (yyvsp[-1].num), (yyvsp[0].num));
+                tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), ht_get(hashtable, (yyvsp[0].num)), " ", "py", "py", NULL, 2);
+                ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup));
+                ht_get( hashtable, (yyvsp[0].num) );
 	}
-#line 1412 "y.tab.c" /* yacc.c:1646  */
+#line 1417 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 108 "parser.y" /* yacc.c:1646  */
-    { 
-	printf("\n<INPUT: APPLY GATE TERM>\n", (yyvsp[-1].id), (yyvsp[0].num)); 
-	tup = get_pytup((yyvsp[-1].id), ht_get(hashtable, (yyvsp[0].num)), " ", "str", "py", NULL, 2); 
-	ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup));
-	ht_get( hashtable, (yyvsp[0].num) );}
-#line 1422 "y.tab.c" /* yacc.c:1646  */
+#line 113 "parser.y" /* yacc.c:1646  */
+    {
+                printf("<INPUT: APPLY GATE TERM>\n", (yyvsp[-1].id), (yyvsp[0].num));
+                tup = get_pytup((yyvsp[-1].id), ht_get(hashtable, (yyvsp[0].num)), " ", "str", "py", NULL, 2);
+                ht_set(hashtable, (yyvsp[0].num), callpy("APPLY", tup));
+                ht_get( hashtable, (yyvsp[0].num) );
+            }
+#line 1428 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 113 "parser.y" /* yacc.c:1646  */
-    { 
-	printf("\n<INPUT: MEASURE %s %s", (yyvsp[-1].num), (yyvsp[0].num));
-	printf(">\n"); 
-	tup = get_pytup(ht_get( hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1); 
-	ht_set(hashtable, (yyvsp[0].num), callpy("MEASURE", tup)); 
-	ht_get( hashtable, (yyvsp[0].num) ); }
-#line 1433 "y.tab.c" /* yacc.c:1646  */
+#line 119 "parser.y" /* yacc.c:1646  */
+    {
+                printf("<INPUT: MEASURE %s %s", (yyvsp[-1].num), (yyvsp[0].num));
+                printf(">\n");
+                tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1);
+                ht_set(hashtable, (yyvsp[0].num), callpy("MEASURE", tup));
+                ht_get( hashtable, (yyvsp[0].num) );
+            }
+#line 1440 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 119 "parser.y" /* yacc.c:1646  */
+#line 126 "parser.y" /* yacc.c:1646  */
     {
-	printf("\n<INPUT: PEEK %s %s", (yyvsp[-1].num), (yyvsp[0].num));
-	printf(">\n"); 
-	tup = get_pytup(ht_get( hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1); 
-	ht_set(hashtable, (yyvsp[0].num), callpy("PEEK", tup)); 
-	ht_get( hashtable, (yyvsp[0].num) ); }
-#line 1444 "y.tab.c" /* yacc.c:1646  */
+                printf("<INPUT: PEEK %s %s", (yyvsp[-1].num), (yyvsp[0].num));
+                tup = get_pytup(ht_get(hashtable, (yyvsp[-1].num)), " ", " ", "py", NULL, NULL, 1);
+                ht_set(hashtable, (yyvsp[0].num), callpy("PEEK", tup));
+                ht_get( hashtable, (yyvsp[0].num) );
+            }
+#line 1451 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 125 "parser.y" /* yacc.c:1646  */
-    { 
-	printf("\n<INPUT: SELECT %s %s %i %i>\n", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
-	tup = get_pytup(ht_get(hashtable, (yyvsp[-2].num)), (yyvsp[-1].num), (yyvsp[0].num), "py", "int", "int", 3); 
-	ht_set(hashtable, (yyvsp[-3].num), callpy("SELECT", tup)); 
-	ht_get( hashtable, (yyvsp[-3].num) ); }
-#line 1454 "y.tab.c" /* yacc.c:1646  */
+#line 132 "parser.y" /* yacc.c:1646  */
+    {
+                printf("<INPUT: SELECT %s %s %i %i>\n", (yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num), (yyvsp[0].num));
+                tup = get_pytup(ht_get(hashtable, (yyvsp[-2].num)), (yyvsp[-1].num), (yyvsp[0].num), "py", "int", "int", 3);
+                ht_set(hashtable, (yyvsp[-3].num), callpy("SELECT", tup));
+                ht_get( hashtable, (yyvsp[-3].num) );
+            }
+#line 1462 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 131 "parser.y" /* yacc.c:1646  */
+#line 139 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[0].num);}
-#line 1460 "y.tab.c" /* yacc.c:1646  */
+#line 1468 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 132 "parser.y" /* yacc.c:1646  */
+#line 140 "parser.y" /* yacc.c:1646  */
     {(yyval.num) = (yyvsp[0].id);}
-#line 1466 "y.tab.c" /* yacc.c:1646  */
+#line 1474 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1470 "y.tab.c" /* yacc.c:1646  */
+#line 1478 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1694,217 +1702,191 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 135 "parser.y" /* yacc.c:1906  */
+#line 143 "parser.y" /* yacc.c:1906  */
                      /* C code */
 
-
 /* Create a new hashtable. */
-hashtable_t *ht_create( int size ) {
+hashtable_t *ht_create(int size) {
+    hashtable_t *hashtable = NULL;
+    int i;
 
-	hashtable_t *hashtable = NULL;
-	int i;
+    if(size < 1) return NULL;
 
-	if( size < 1 ) return NULL;
+    /* Allocate the table itself. */
+    if((hashtable = malloc(sizeof( hashtable_t))) == NULL) {
+        return NULL;
+    }
 
-	/* Allocate the table itself. */
-	if( ( hashtable = malloc( sizeof( hashtable_t ) ) ) == NULL ) {
-		return NULL;
-	}
+    /* Allocate pointers to the head nodes. */
+    if((hashtable->table = malloc(sizeof(entry_t *)*size)) == NULL) {
+        return NULL;
+    }
+    for( i = 0; i < size; i++ ) {
+        hashtable->table[i] = NULL;
+    }
 
-	/* Allocate pointers to the head nodes. */
-	if( ( hashtable->table = malloc( sizeof( entry_t * ) * size ) ) == NULL ) {
-		return NULL;
-	}
-	for( i = 0; i < size; i++ ) {
-		hashtable->table[i] = NULL;
-	}
+    hashtable->size = size;
 
-	hashtable->size = size;
-
-	return hashtable;	
+    return hashtable;
 }
 
 /* Hash a string for a particular hash table. */
-int ht_hash( hashtable_t *hashtable, char *key ) {
-	unsigned long int hashval;
-	int i = 0;
-	
-	while( hashval < ULONG_MAX && i < strlen( key ) ) {
-		hashval = hashval << 8;
-		hashval += key[ i ];
-		i++;
-	}
-	return hashval % hashtable->size;
+int ht_hash(hashtable_t *hashtable, char *key) {
+    unsigned long int hashval;
+    int i = 0;
+
+    while( hashval < ULONG_MAX && i < strlen( key ) ) {
+            hashval = hashval << 8;
+            hashval += key[ i ];
+            i++;
+    }
+    return hashval % hashtable->size;
 }
 
 /* Create a key-value pair. */
 entry_t *ht_newpair( char *key, PyObject *value ) {
-	entry_t *newpair;
+    entry_t *newpair;
 
-	if( ( newpair = malloc( sizeof( entry_t ) ) ) == NULL ) {
-		return NULL;
-	}
-	if( ( newpair->key = strdup( key ) ) == NULL ) {
-		return NULL;
-	}
-	if( ( newpair->value = value ) == NULL ) {
-		return NULL;
-	}
-	newpair->next = NULL;
-	
-	return newpair;
+    if((newpair = malloc(sizeof(entry_t))) == NULL) {
+        return NULL;
+    }
+    if((newpair->key = strdup(key)) == NULL) {
+        return NULL;
+    }
+    if((newpair->value = value) == NULL) {
+        return NULL;
+    }
+    newpair->next = NULL;
+    return newpair;
 }
 
 /* Insert a key-value pair into a hash table. */
 void ht_set( hashtable_t *hashtable, char *key, PyObject *value ) {
-	
-	int bin = 0;
-	entry_t *newpair = NULL;
-	entry_t *next = NULL;
-	entry_t *last = NULL;
-	bin = ht_hash( hashtable, key );
-	next = hashtable->table[ bin ];
+    int bin = 0;
+    entry_t *newpair = NULL;
+    entry_t *next = NULL;
+    entry_t *last = NULL;
+    bin = ht_hash( hashtable, key );
+    next = hashtable->table[ bin ];
 
-	printf("SET Hash[%i]\n", bin);
+    printf("SET Hash[%i]\n", bin);
 
-	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
-		last = next;
-		next = next->next;
-	}
-	/* There's already a pair.  Let's replace that string. */
-	if( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
-		printf("Found a pair already on key: %s...\n", key);
-		next->value = value;
-
-	/* Nope, could't find it.  Time to grow a pair. */
-	} else {
-		newpair = ht_newpair( key, value );
-
-		/* We're at the start of the linked list in this bin. */
-		if( next == hashtable->table[ bin ] ) {
-			newpair->next = next;
-			hashtable->table[ bin ] = newpair;
-	
-		/* We're at the end of the linked list in this bin. */
-		} else if ( next == NULL ) {
-			last->next = newpair;
-	
-		/* We're in the middle of the list. */
-		} else  {
-			newpair->next = next;
-			last->next = newpair;
-		}
-	}
+    while( next != NULL && next->key != NULL && strcmp(key, next->key)>0) {
+        last = next;
+        next = next->next;
+    }
+    /* There's already a pair.  Let's replace that string. */
+    if( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
+            printf("Found a pair already on key: %s...\n", key);
+            next->value = value;
+    } else {
+        newpair = ht_newpair( key, value );
+        /* We're at the start of the linked list in this bin. */
+        if( next == hashtable->table[ bin ] ) {
+                newpair->next = next;
+                hashtable->table[ bin ] = newpair;
+        /* We're at the end of the linked list in this bin. */
+        } else if ( next == NULL ) {
+                last->next = newpair;
+        /* We're in the middle of the list. */
+        } else  {
+                newpair->next = next;
+                last->next = newpair;
+        }
+    }
 }
 
 /* Retrieve a key-value pair from a hash table. */
 PyObject *ht_get( hashtable_t *hashtable, char *key ) {
-	int bin = 0;
-	entry_t *pair;
-	bin = ht_hash( hashtable, key );
-	printf("GET Hash[%i] -> ", bin);
-	/* Step through the bin, looking for our value. */
-	pair = hashtable->table[ bin ];
-	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
-		pair = pair->next;
-	}
-	/* Did we actually find anything? */
-	if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
-		printf("ERROR: Found nothing from hashtable for key: %s\n", key);
-	/* So we'll just return the key then... */
-		return key;
-
-	} else {
-		printf("%s -> ", key);
-		PyObject_Print(pair->value, stdout, 0); printf("\n");
-		return pair->value;
-	}
-	
+    int bin = 0;
+    entry_t *pair;
+    bin = ht_hash( hashtable, key );
+    printf("GET Hash[%i] -> ", bin);
+    /* Step through the bin, looking for our value. */
+    pair = hashtable->table[ bin ];
+    while( pair != NULL && pair->key != NULL && strcmp( key, pair->key )>0) {
+        pair = pair->next;
+    }
+    if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
+        printf("ERROR: Found nothing from hashtable for key: %s\n", key);
+        return NULL;
+    } else {
+        printf("%s -> ", key);
+        PyObject_Print(pair->value, stdout, 0); printf("\n");
+        return pair->value;
+    }
 }
 
-PyObject* callpy(char* f_name, PyObject *tup)
-{
-   	pFunc = PyDict_GetItemString(pDict, (char*)f_name);
-	presult = call_pyfunc();
-	printf("SUCCESS: Python Simulator Function Call\n");
-	return presult;
+PyObject* callpy(char* f_name, PyObject *tup) {
+    pFunc = PyDict_GetItemString(pDict, (char*)f_name);
+    presult = call_pyfunc();
+    printf("SUCCESS: Python Simulator Function Call\n");
+    return presult;
 }
 
-PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args) 
-{
-	tup = PyTuple_New(n_args);
-	//printf("initialised tuple with %d args...\n", n_args);
-	PyErr_Print();
+PyObject* get_pytup(void* a1, void* a2, void* a3, char* t1, char* t2, char* t3, int n_args) {
+    tup = PyTuple_New(n_args);
+    PyErr_Print();
 
-	if (a1 != " ") {
-		set_tupitem(t1, a1, 0);
-		// printf("SUCCESS set first tup item..\n");
-	}
-	if (a2 != " ") {
-		set_tupitem(t2, a2, 1);
-		// printf("SUCCESS set 2nd tup item...\n");
-	}
-	if (a3 != " ") {
-		set_tupitem(t3, a3, 2);
-		// printf("SUCCESS set third tup item...\n");
-	}
-	return tup;
+    if (a1 != " ") { set_tupitem(t1, a1, 0); }
+    if (a2 != " ") { set_tupitem(t2, a2, 1); }
+    if (a3 != " ") { set_tupitem(t3, a3, 2); }
+    return tup;
 }
 
 int set_tupitem(char* type, void* item, int pos) {
-	if (type == "py") {
-		PyTuple_SetItem(tup, pos, item);
-		// printf("set item[%d] as py obj\n", pos);
-	}
-	else if (type == "str") {
-		PyTuple_SetItem(tup, pos, PyDict_GetItemString(pDict, item));
-		// printf("set item[%d] as str obj\n", pos);
-	}
-	else if (type == "int") {
-		PyTuple_SetItem(tup, pos, Py_BuildValue("i", item));
-		// printf("set item[%d] as int obj\n", pos);
-	}
-	else {
-		printf("ERROR Setting item %s in pos %d..\n", item, pos);
-		return 0;
-	}
-	return 1;
-	PyErr_Print();
+    if (type == "py") {
+        PyTuple_SetItem(tup, pos, item);
+    } else if (type == "str") {
+        PyTuple_SetItem(tup, pos, PyDict_GetItemString(pDict, item));
+    } else if (type == "int") {
+        PyTuple_SetItem(tup, pos, Py_BuildValue("i", item));
+    } else {
+        printf("ERROR Setting item %s in pos %d..\n", item, pos);
+        return 0;
+    }
+    return 1;
+    PyErr_Print();
 }
 
-PyObject* call_pyfunc()
-{
-	if (PyCallable_Check(pFunc))
-   	{
+PyObject* call_pyfunc() {
+	if (PyCallable_Check(pFunc)) {
 		PyErr_Print();
        		presult = PyObject_CallObject(pFunc,tup);
-		PyErr_Print();
-   	} else 
-   	{
-       		PyErr_Print();
    	}
+        PyErr_Print();
 	return presult;
 }
-
-
 
 int main (void) {
 	/* Set PYTHONPATH TO working directory */
 	setenv("PYTHONPATH",".",1);
-   
  	/* Initialize the Python Interpreter */
 	Py_Initialize();
-
 	/* Prep Python */
 	pName = PyString_FromString((char*)"sim");
+        if(pName == NULL) {
+          PyErr_Print();
+          perror("PyString_FromString failed");
+        }
 	pModule = PyImport_Import(pName);
-	pDict = PyModule_GetDict(pModule);	
+        if(pModule == NULL) {
+          PyErr_Print();
+          perror("PyImport_Import failed");
+        }
+	pDict = PyModule_GetDict(pModule);
+        if(pDict == NULL) {
+          PyErr_Print();
+          perror("PyModule_GetDict failed");
+        }
 
+        printf("\nPARSER READY!\n");
 	/* Init hashtable for python objects */
 	hashtable = ht_create( 128 );
-	
+
 	return yyparse ( );
 }
 
-void yyerror (const char *s) {fprintf (stderr, "%s\n", s);} 
-
+void yyerror (const char *s) {
+  fprintf (stderr, "%s\n", s);
+}

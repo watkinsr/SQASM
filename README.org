@@ -1,8 +1,10 @@
 * Prerequisites
 Flex/Bison
+Python 2.7
+Numpy(Python 2.7)
 
 * Usage
-bash compile <input>
+compile foo.SQASM
 
 * Example input(HADAMARD -> CNOT)
 #+BEGIN_SRC

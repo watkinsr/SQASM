@@ -19,7 +19,6 @@ DEBUG = False
 # processing tests..
 # TODO: ln 283: Should be a quantum operation
 
-
 """
 Quantum Gate Matrices
 """
