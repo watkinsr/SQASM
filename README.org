@@ -23,6 +23,7 @@ PEEK R RES
 + Rewrite simulator to be fully quantum circuit driven
 
 * DOCS
-[[Thesis][https://github.com/watkinsr/SQASM/raw/docs/report.pdf]]
++ [[https://github.com/watkinsr/SQASM/raw/docs/report.pdf][Thesis]]
++ Slides
 * Licence
 GNU GPL3
