@@ -1,7 +1,9 @@
+# -*- mode: org; -*-
+
 * Prerequisites
-Flex/Bison
-Python 2.7
-Numpy(Python 2.7)
++ Flex/Bison
++ Python 2.7
++ Numpy(Python 2.7)
 * Usage
 #+BEGIN_SRC shell
 compile foo.SQASM
