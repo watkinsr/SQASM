@@ -16,12 +16,11 @@ APPLY U R
 APPLY CNOT R
 PEEK R RES
 #+END_SRC
-
-* todos
-** Package for Python
-** Rewrite in GNU Guile
-** Include quantum algorithms
-** Rewrite simulator to be fully quantum circuit driven
+* TODO
++ Package for Python
++ Rewrite in GNU Guile
++ Include quantum algorithms
++ Rewrite simulator to be fully quantum circuit driven
 
 * Licence
 GNU GPL3
