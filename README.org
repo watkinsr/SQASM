@@ -16,7 +16,7 @@ APPLY U R
 APPLY CNOT R
 PEEK R RES
 #+END_SRC
-* TODO
+* TODOS
 + Package for Python
 + Rewrite in GNU Guile
 + Include quantum algorithms
