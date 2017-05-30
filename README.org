@@ -3,7 +3,9 @@ Flex/Bison
 Python 2.7
 Numpy(Python 2.7)
 * Usage
+#+BEGIN_SRC shell
 compile foo.SQASM
+#+END_SRC
 * Example input(HADAMARD -> CNOT)
 #+BEGIN_SRC
 INITIALIZE R 2 0
