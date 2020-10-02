@@ -8,7 +8,7 @@
 * Build
 #+BEGIN_SRC shell
 git clone git@git.ryanwatkins.me:base/sqint.git;
-cd sqint/src;
+cd sqint;
 make
 #+END_SRC
 
