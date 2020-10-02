@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z "$1" ]
-  then
-    echo "ERROR: No input given"
-fi
-
-echo yacc -d parser.y && flex lex.l && gcc -I/usr/include/python2.7 -lpython2.7 lex.yy.c y.tab.c -o qasm >> sqasm.log
-echo ./qasm<$1 >> sqasm.log

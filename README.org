@@ -1,13 +1,17 @@
 # -*- mode: org; -*-
-
 * Prerequisites
-+ Flex/Bison
-+ Python 2.7
-+ Numpy(Python 2.7)
+- python2.7
+- python-numpy
+- python dev libs
+- gcc
+* Build
+./src/compile.sh
 * Usage
 #+BEGIN_SRC shell
-compile foo.SQASM
+bin/qasm
 #+END_SRC
+* Description
+Currently this implements some quantum gates and quantum adder operations as found in research papers.
 * Example input(HADAMARD -> CNOT)
 #+BEGIN_SRC
 INITIALIZE R 2 0
@@ -16,12 +20,11 @@ APPLY U R
 APPLY CNOT R
 PEEK R RES
 #+END_SRC
+
 * TODOS
-+ Package for Python
-+ Wiki docs
-+ Rewrite in GNU Guile
-+ Include quantum algorithms
-+ Rewrite simulator to be fully quantum circuit driven
+- Rebuild in C
+- Nice to have: Include quantum algorithms
+- Rewrite simulator to be fully quantum circuit driven
 
 * Documentation
 + [[https://github.com/watkinsr/sqasm-thesis/blob/master/thesis/thesis.pdf][Thesis]]
