@@ -1,19 +1,19 @@
 ##
-# K&R Solutions
+# QPL Interpreter
 #
 # @file
 # @version 0.1
 
-IDIR =../include
+IDIR=include
 CC=gcc
 CFLAGS=-I$(IDIR)
 
 LIBS=-lm
 
 ODIR=obj
-LDIR =../lib
+LDIR=lib
 
-BDIR=../bin
+BDIR=bin
 
 _DEPS = parse.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -21,7 +21,7 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = parse.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: src/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 MKDIR_P = mkdir -p

@@ -8,7 +8,7 @@
 
 // Taken from: https://brennan.io/2015/01/16/write-a-shell-in-c/
 
-int main(int argc, char **argv)
+int main(void)
 {
     // Load config files, if any.
 
