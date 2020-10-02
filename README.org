@@ -4,9 +4,11 @@
 
 * Prerequisites
 - gcc
+- libeigen3-dev
 
 * Build
 #+BEGIN_SRC shell
+sudo apt install libeigen3-dev
 git clone git@git.ryanwatkins.me:base/sqint.git;
 cd sqint;
 make
