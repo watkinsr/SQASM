@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "../include/parse.h"
+#include "../include/QReg.h"
 
 // Taken from: https://brennan.io/2015/01/16/write-a-shell-in-c/
 
@@ -40,7 +41,7 @@ void lsh_loop(void)
 char *lsh_read_line(void)
 {
     char *line = NULL;
-    ssize_t bufsize = 0; // have getline allocate a buffer for us
+    size_t bufsize = 0; // have getline allocate a buffer for us
 
     if (getline(&line, &bufsize, stdin) == -1)
     {
@@ -60,9 +61,9 @@ char *lsh_read_line(void)
 
 char **lsh_split_line(char *line)
 {
-    int bufsize = LSH_TOK_BUFSIZE;
+    size_t bufsize = LSH_TOK_BUFSIZE;
     int position = 0;
-    char **tokens = malloc(bufsize * sizeof(char *));
+    char **tokens = (char **)malloc(bufsize * sizeof(char *));
     char *token;
 
     if (!tokens)
@@ -81,7 +82,7 @@ char **lsh_split_line(char *line)
         if (position >= bufsize)
         {
             bufsize += LSH_TOK_BUFSIZE;
-            tokens = realloc(tokens, bufsize * sizeof(char *));
+            tokens = (char **)realloc(tokens, bufsize * sizeof(char *));
             if (!tokens)
             {
                 fprintf(stderr, "lsh: allocation error\n");
@@ -106,13 +107,18 @@ int lsh_num_builtins()
 
 int lsh_init(char **args)
 {
-    if (args[1] == NULL)
+    if (args[1] == NULL || args[2] == NULL || args[3] == NULL)
     {
-        fprintf(stderr, "we require a register to INIT, example: INIT R2 2 0\n");
+        fprintf(stderr, "invalid args to INIT, example: INIT R2 2 0\n");
     }
     else
     {
-        printf("Received a register\n");
+        char *r = args[1];
+        int arg1 = atoi(args[2]);
+        int arg2 = atoi(args[3]);
+        printf("Valid input, register: %s, arg1: %i, arg2: %i\n", r, arg1, arg2);
+
+        QReg reg = QReg(arg1, arg2);
     }
     return 1;
 }
@@ -152,6 +158,5 @@ int lsh_execute(char **args)
             return (*builtin_func[i])(args);
         }
     }
-
-    // return lsh_launch(args);
+    return 0;
 }

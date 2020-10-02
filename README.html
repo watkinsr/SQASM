@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-02 Fri 07:19 -->
+<!-- 2020-10-02 Fri 07:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>QPL Interpreter</title>
@@ -225,20 +225,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org4b06fdb">1. Prerequisites</a></li>
-<li><a href="#org6a9647f">2. Build</a></li>
-<li><a href="#org0359988">3. Usage</a></li>
-<li><a href="#orgf85dfbf">4. Description</a></li>
-<li><a href="#org905d7f3">5. Example input(HADAMARD -&gt; CNOT)</a></li>
-<li><a href="#org33ea045">6. TODOS</a></li>
-<li><a href="#org58fad8f">7. Documentation</a></li>
-<li><a href="#org028c422">8. Licence</a></li>
+<li><a href="#org752e057">1. Prerequisites</a></li>
+<li><a href="#orge750c52">2. Build</a></li>
+<li><a href="#org90f7b11">3. Usage</a></li>
+<li><a href="#org5a820fc">4. Description</a></li>
+<li><a href="#org4189a63">5. Example input(HADAMARD -&gt; CNOT)</a></li>
+<li><a href="#orgef0e774">6. TODOS</a></li>
+<li><a href="#org6fc4821">7. Licence</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org4b06fdb" class="outline-2">
-<h2 id="org4b06fdb"><span class="section-number-2">1</span> Prerequisites</h2>
+<div id="outline-container-org752e057" class="outline-2">
+<h2 id="org752e057"><span class="section-number-2">1</span> Prerequisites</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>gcc</li>
@@ -246,8 +245,8 @@
 </div>
 </div>
 
-<div id="outline-container-org6a9647f" class="outline-2">
-<h2 id="org6a9647f"><span class="section-number-2">2</span> Build</h2>
+<div id="outline-container-orge750c52" class="outline-2">
+<h2 id="orge750c52"><span class="section-number-2">2</span> Build</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #ECBE7B;">git</span> clone <span style="color: #ECBE7B;">git</span>@git.ryanwatkins.me:base/sqint.git;
@@ -258,8 +257,8 @@
 </div>
 </div>
 
-<div id="outline-container-org0359988" class="outline-2">
-<h2 id="org0359988"><span class="section-number-2">3</span> Usage</h2>
+<div id="outline-container-org90f7b11" class="outline-2">
+<h2 id="org90f7b11"><span class="section-number-2">3</span> Usage</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-shell">./bin/parse
@@ -268,8 +267,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgf85dfbf" class="outline-2">
-<h2 id="orgf85dfbf"><span class="section-number-2">4</span> Description</h2>
+<div id="outline-container-org5a820fc" class="outline-2">
+<h2 id="org5a820fc"><span class="section-number-2">4</span> Description</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Currently this implements some quantum gates and quantum adder operations as found in research papers.
@@ -277,8 +276,8 @@ Currently this implements some quantum gates and quantum adder operations as fou
 </div>
 </div>
 
-<div id="outline-container-org905d7f3" class="outline-2">
-<h2 id="org905d7f3"><span class="section-number-2">5</span> Example input(HADAMARD -&gt; CNOT)</h2>
+<div id="outline-container-org4189a63" class="outline-2">
+<h2 id="org4189a63"><span class="section-number-2">5</span> Example input(HADAMARD -&gt; CNOT)</h2>
 <div class="outline-text-2" id="text-5">
 <pre class="example">
 INITIALIZE R 2 0
@@ -290,8 +289,8 @@ PEEK R RES
 </div>
 </div>
 
-<div id="outline-container-org33ea045" class="outline-2">
-<h2 id="org33ea045"><span class="section-number-2">6</span> TODOS</h2>
+<div id="outline-container-orgef0e774" class="outline-2">
+<h2 id="orgef0e774"><span class="section-number-2">6</span> TODOS</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>Rebuild in C (in progress)</li>
@@ -301,19 +300,9 @@ PEEK R RES
 </div>
 </div>
 
-<div id="outline-container-org58fad8f" class="outline-2">
-<h2 id="org58fad8f"><span class="section-number-2">7</span> Documentation</h2>
+<div id="outline-container-org6fc4821" class="outline-2">
+<h2 id="org6fc4821"><span class="section-number-2">7</span> Licence</h2>
 <div class="outline-text-2" id="text-7">
-<ul class="org-ul">
-<li><a href="https://github.com/watkinsr/sqasm-thesis/blob/master/thesis/thesis.pdf">Thesis</a></li>
-<li><a href="https://github.com/watkinsr/sqasm-thesis/blob/master/talks/slides_uor_may_2016.pdf">Slides</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org028c422" class="outline-2">
-<h2 id="org028c422"><span class="section-number-2">8</span> Licence</h2>
-<div class="outline-text-2" id="text-8">
 <p>
 GNU GPL3
 </p>
@@ -322,7 +311,7 @@ GNU GPL3
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ryan Watkins</p>
-<p class="date">Created: 2020-10-02 Fri 07:19</p>
+<p class="date">Created: 2020-10-02 Fri 07:32</p>
 </div>
 </body>
 </html>

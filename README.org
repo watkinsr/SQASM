@@ -34,9 +34,5 @@ PEEK R RES
 - Nice to have: Include quantum algorithms
 - Rewrite simulator to be fully quantum circuit driven
 
-* Documentation
-+ [[https://github.com/watkinsr/sqasm-thesis/blob/master/thesis/thesis.pdf][Thesis]]
-+ [[https://github.com/watkinsr/sqasm-thesis/blob/master/talks/slides_uor_may_2016.pdf][Slides]]
-
 * Licence
 GNU GPL3

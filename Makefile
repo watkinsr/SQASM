@@ -5,24 +5,23 @@
 # @version 0.1
 
 IDIR=include
-CC=gcc
-CFLAGS=-I$(IDIR)
+CPPFLAGS=-g -I$(IDIR) -I/usr/include/eigen3 -lstdc++
 
-LIBS=-lm
+LIBS=
 
 ODIR=obj
 LDIR=lib
 
 BDIR=bin
 
-_DEPS = parse.h
+_DEPS = parse.h QReg.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = parse.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(ODIR)/%.o: src/%.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(ODIR)/%.o: src/%.cpp $(DEPS)
+	$(CXX) -c -o $@ $< $(CPPFLAGS)
 
 MKDIR_P = mkdir -p
 
@@ -31,7 +30,7 @@ MKDIR_P = mkdir -p
 all: directories parse
 
 parse: $(OBJ)
-	$(CC) -o $(BDIR)/$@ $^ $(CFLAGS) $(LIBS)
+	$(CXX) -o $(BDIR)/$@ $^ $(CPPFLAGS)
 
 directories: ${BDIR} ${ODIR}
 

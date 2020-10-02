@@ -1,3 +1,5 @@
+#include <string>
+
 #define LSH_RL_BUFSIZE 1024
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
@@ -9,7 +11,7 @@ int lsh_exit(char **args);
 int lsh_execute(char **args);
 int lsh_init(char **args);
 
-char *tokens[] = {
+const char *tokens[] = {
     "INIT"};
 
 int (*builtin_func[])(char **) = {
