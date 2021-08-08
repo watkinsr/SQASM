@@ -5,7 +5,7 @@
 # @version 0.1
 
 IDIR=include
-CPPFLAGS=-g -I$(IDIR) -I/usr/include/eigen3 -lstdc++
+CPPFLAGS=-g -I$(IDIR) -lstdc++
 
 LIBS=
 
@@ -21,7 +21,7 @@ _OBJ = parse.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: src/%.cpp $(DEPS)
-	$(CXX) -c -o $@ $< $(CPPFLAGS)
+	$(CXX) $(pkg-config --cflags eigen3) -c -o $@ $< $(CPPFLAGS)
 
 MKDIR_P = mkdir -p
 

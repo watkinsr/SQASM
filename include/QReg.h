@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <iostream>
 
 using Eigen::MatrixXd;
