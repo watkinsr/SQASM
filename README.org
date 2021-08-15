@@ -31,10 +31,9 @@ APPLY CNOT R
 PEEK R RES
 #+END_SRC
 
-* TODOS
-- Rebuild in C (in progress)
-- Nice to have: Include quantum algorithms
-- Rewrite simulator to be fully quantum circuit driven
+* TODO
+** TODO Rebuild in C (in progress)
+** TODO Nice to have: Include quantum algorithms
 
 * Licence
 GNU GPL3
