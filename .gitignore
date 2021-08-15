@@ -67,3 +67,7 @@ target/
 # pyenv
 .python-version
 
+.ccls-cache
+bin
+obj
+venv
