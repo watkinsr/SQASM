@@ -1,61 +1,44 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <eigen3/Eigen/Dense>
 #include <iostream>
-
-using Eigen::MatrixXd;
-
-/*
-    def __init__(self, n_qubits, setVal=-1):
-        self.n_qubits = n_qubits
-        self.qubits = [0] * n_qubits
-        # in this classical simulation, we use 2^n_qubits complex numbers
-        self.amps = [0] * (1 << n_qubits)
-        self.amps[len(self.amps) - 1] = 1
-        if (setVal != -1):
-            self.amps[setVal] = 1
-            if (setVal != len(self.amps) - 1):
-                self.amps[len(self.amps) - 1] = 0
-        self.amps = np.matrix(self.amps).T
-*/
+#include <vector>
 
 class QReg
 {
 public:
-    QReg(size_t _numQubits, int _val)
+    QReg(size_t numberOfQubits)
     {
-        numQubits = _numQubits;
-        qubits = (int *)calloc(sizeof(int), _numQubits);
-        printf("qubits: %i", qubits);
-        assert(qubits);
-        amps = (int *)calloc(sizeof(int), _numQubits);
-        assert(amps);
+        numberOfQubits = numberOfQubits;
+        qubits = (int *)calloc(sizeof(int), numberOfQubits);
+        int numberOfAmplitudes = (1 << numberOfQubits);
+        amps = (int *)calloc(sizeof(int), numberOfAmplitudes);
 
-        for (int i = 0; i < (1 << numQubits); i++)
+        printf("Number of qubits: %zu\n", numberOfQubits);
+        printf("Number of amplitudes: %i\n", numberOfAmplitudes);
+
+        for (int i = 0; i < numberOfAmplitudes; i++)
         {
             amps[i] = 0;
         }
-        amps[numQubits - 1] = 1;
-        if (_val != -1)
-        {
-            amps[_val] = 1;
-            if (_val != numQubits - 1)
-            {
-                amps[numQubits - 1] = 0;
-            }
-        }
+        amps[numberOfAmplitudes - 1] = 1;
 
-        MatrixXd m(2, 2);
-        m(0, 0) = 3;
-        m(1, 0) = 2.5;
-        m(0, 1) = -1;
-        m(1, 1) = m(1, 0) + m(0, 1);
+        printf("Amplitudes: ");
+        // Print the amplitudes.
+        for (int i = 0; i < numberOfAmplitudes; i++)
+            std::cout << amps[i];
 
-        std::cout << m << std::endl;
+        printf("\n");
+
+        std::vector<std::vector<int>> matrix_(numberOfAmplitudes, std::vector<int>(1));
+        matrix = matrix_;
+
+        // Default set last value as 1.
+        matrix[numberOfAmplitudes - 1][0] = 1;
     }
 
 private:
-    int numQubits;
+    int numberOfQubits;
     int *qubits;
     int *amps;
+    std::vector<std::vector<int>> matrix;
 };

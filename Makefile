@@ -21,7 +21,7 @@ _OBJ = parse.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: src/%.cpp $(DEPS)
-	$(CXX) $(pkg-config --cflags eigen3) -c -o $@ $< $(CPPFLAGS)
+	$(CXX) -c -o $@ $< $(CPPFLAGS)
 
 MKDIR_P = mkdir -p
 
