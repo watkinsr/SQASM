@@ -17,7 +17,7 @@ BDIR=bin
 _DEPS = parse.h QReg.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = parse.o
+_OBJ = parse.o QReg.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: src/%.cpp $(DEPS)

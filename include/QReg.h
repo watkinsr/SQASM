@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <complex>
+
+using namespace std;
 
 class QReg
 {
@@ -11,34 +14,33 @@ public:
         numberOfQubits = numberOfQubits;
         qubits = (int *)calloc(sizeof(int), numberOfQubits);
         int numberOfAmplitudes = (1 << numberOfQubits);
-        amps = (int *)calloc(sizeof(int), numberOfAmplitudes);
-
         printf("Number of qubits: %zu\n", numberOfQubits);
         printf("Number of amplitudes: %i\n", numberOfAmplitudes);
 
-        for (int i = 0; i < numberOfAmplitudes; i++)
-        {
-            amps[i] = 0;
-        }
-        amps[numberOfAmplitudes - 1] = 1;
-
-        printf("Amplitudes: ");
-        // Print the amplitudes.
-        for (int i = 0; i < numberOfAmplitudes; i++)
-            std::cout << amps[i];
-
-        printf("\n");
-
-        std::vector<std::vector<int>> matrix_(numberOfAmplitudes, std::vector<int>(1));
-        matrix = matrix_;
+        vector<vector<complex<double>>> matrix_(numberOfAmplitudes, vector<complex<double>>(1));
+        amplitude_matrix = matrix_;
 
         // Default set last value as 1.
-        matrix[numberOfAmplitudes - 1][0] = 1;
+        amplitude_matrix[numberOfAmplitudes - 1][0] = 1;
+
+        // Initialize hadamard gate
+        vector<vector<complex<double>>> HAD_GATE_(2, vector<complex<double>>(2));
+        HAD_GATE = HAD_GATE_;
+
+        HAD_GATE[0][0] = 1 / sqrt(2);
+        HAD_GATE[0][1] = 1 / sqrt(2);
+        HAD_GATE[1][0] = 1 / sqrt(2);
+        HAD_GATE[1][1] = -1 / sqrt(2);
     }
+
+    void applyGate();
 
 private:
     int numberOfQubits;
     int *qubits;
-    int *amps;
-    std::vector<std::vector<int>> matrix;
+    vector<vector<complex<double>>> amplitude_matrix;
+    vector<vector<complex<double>>> HAD_GATE;
+
+
+
 };
