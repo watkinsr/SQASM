@@ -8,15 +8,11 @@
 #include "../include/QReg.h"
 
 // Taken from: https://brennan.io/2015/01/16/write-a-shell-in-c/
-
 int main(void)
 {
-    // Load config files, if any.
-
     // Run command loop.
     lsh_loop();
 
-    // Perform any shutdown/cleanup.
     return 0;
 }
 
@@ -62,7 +58,7 @@ char *lsh_read_line(void)
 char **lsh_split_line(char *line)
 {
     size_t bufsize = LSH_TOK_BUFSIZE;
-    int position = 0;
+    size_t position = 0;
     char **tokens = (char **)malloc(bufsize * sizeof(char *));
     char *token;
 
@@ -105,6 +101,9 @@ int lsh_num_builtins()
     return sizeof(tokens) / sizeof(char *);
 }
 
+/*
+  Builtin function implementations.
+*/
 int lsh_init(char **args)
 {
     printf("Found INIT token.\n");
@@ -114,23 +113,16 @@ int lsh_init(char **args)
     }
     else
     {
-        char *r = args[1];
-        int arg1 = atoi(args[2]);
-        int arg2 = atoi(args[3]);
-        printf("Valid input, register: %s, arg1: %i, arg2: %i\n", r, arg1, arg2);
-
-        QReg reg = QReg(arg1, arg2);
+        // char *r = args[1];
+        int amountOfQubits = atoi(args[2]);
+        QReg reg = QReg(amountOfQubits);
     }
     return 1;
 }
 
-/*
-  Builtin function implementations.
-*/
 
 int lsh_help(char **args)
 {
-    int i;
     printf("Welcome to simple quantum interpreter (SQINT)");
     printf("Consult examples for example program text");
 
