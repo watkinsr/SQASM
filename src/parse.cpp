@@ -76,7 +76,7 @@ char **lsh_split_line(char *line)
 
     while (token != NULL)
     {
-        printf("token: %s\n", token);
+        // printf("token: %s\n", token);
         tokens[position++] = token;
 
         if (position >= bufsize)
@@ -107,6 +107,7 @@ int lsh_num_builtins()
 
 int lsh_init(char **args)
 {
+    printf("Found INIT token.\n");
     if (args[1] == NULL || args[2] == NULL || args[3] == NULL)
     {
         fprintf(stderr, "invalid args to INIT, example: INIT R2 2 0\n");
@@ -130,7 +131,7 @@ int lsh_init(char **args)
 int lsh_help(char **args)
 {
     int i;
-    printf("Welcome to this simple quantum interpreter (SQINT)");
+    printf("Welcome to simple quantum interpreter (SQINT)");
     printf("Consult examples for example program text");
 
     return 1;

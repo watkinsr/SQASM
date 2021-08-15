@@ -11,10 +11,8 @@ int lsh_exit(char **args);
 int lsh_execute(char **args);
 int lsh_init(char **args);
 
-const char *tokens[] = {
-    "INIT"};
+const char *tokens[] = {"INIT"};
 
-int (*builtin_func[])(char **) = {
-    &lsh_init};
+int (*builtin_func[])(char **) = {&lsh_init};
 // &lsh_u,
 // &lsh_apply};

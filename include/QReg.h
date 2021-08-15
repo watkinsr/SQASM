@@ -26,6 +26,7 @@ public:
     {
         numQubits = _numQubits;
         qubits = (int *)calloc(sizeof(int), _numQubits);
+        printf("qubits: %i", qubits);
         assert(qubits);
         amps = (int *)calloc(sizeof(int), _numQubits);
         assert(amps);
