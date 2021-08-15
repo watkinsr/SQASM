@@ -53,16 +53,18 @@ CVPLUS = np.matrix([[1, 0, 0, 0], [0, 1, 0, 0],
 
 
 class QReg:
-    def __init__(self, n_qubits, setVal=-1):
-        self.n_qubits = n_qubits
-        self.qubits = [0] * n_qubits
+    def __init__(self, number_of_qubits, binary_one_position=None):
+        self.number_of_qubits = number_of_qubits
+        self.qubits = [0] * number_of_qubits
+        self.number_of_amplitudes = 1 << number_of_qubits
         # in this classical simulation, we use 2^n_qubits complex numbers
-        self.amps = [0] * (1 << n_qubits)
-        self.amps[len(self.amps) - 1] = 1
-        if (setVal != -1):
-            self.amps[setVal] = 1
-            if (setVal != len(self.amps) - 1):
-                self.amps[len(self.amps) - 1] = 0
+        self.amps = [0] * self.number_of_amplitudes
+        if (binary_one_position):
+            self.amps[binary_one_position] = 1
+        else:
+            self.amps[len(self.amps) - 1] = 1
+
+        # Now turn it into a row vector.
         self.amps = np.matrix(self.amps).T
 
     def getState(self, qs):
@@ -778,7 +780,12 @@ if __name__ == "__main__":
     qs = QSimulator()
 
     # Bell states demonstration - Entanglement of states
-    #  reg = QReg(2, 2)  # Init state |00>
+    # Init state |00>
+    reg = QReg(
+        number_of_qubits=2,
+        binary_one_position=2
+    )
+    print(reg.amps)
 
     # Remember - computation basis for 2 qubit system ~ |00>, |01>, |10>, |11>
     # qs.applyGate(t(HAD, ID), reg)  # Hadamard the first bit
@@ -793,13 +800,13 @@ if __name__ == "__main__":
     # print(reg.amps.T)  # After swap
 
     # Classical computation NAND gate demonstration
-    reg = QReg(3)
-    print('NAND |001> -> %s' % pretty(qs.NAND(0, 0, QReg(3)).T))
-    print('NAND |011> -> %s' % pretty(qs.NAND(0, 1, QReg(3)).T))
-    print('NAND |101> -> %s' % pretty(qs.NAND(1, 0, QReg(3)).T))
-    print('NAND |111> -> %s' % pretty(qs.NAND(1, 1, QReg(3)).T))
+    # reg = QReg(3)
+    # print('NAND |001> -> %s' % pretty(qs.NAND(0, 0, QReg(3)).T))
+    # print('NAND |011> -> %s' % pretty(qs.NAND(0, 1, QReg(3)).T))
+    # print('NAND |101> -> %s' % pretty(qs.NAND(1, 0, QReg(3)).T))
+    # print('NAND |111> -> %s' % pretty(qs.NAND(1, 1, QReg(3)).T))
 
     # -- TESTING - #
-    runTests(qs, adder, m)
+    # runTests(qs, adder, m)
 
     print('Starting up quantum simulator...   DONE')
