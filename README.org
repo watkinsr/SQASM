@@ -2,13 +2,11 @@
 #+AUTHOR: Ryan Watkins
 #+TITLE: QPL Interpreter
 
-* Prerequisites
-- gcc
-- libeigen3-dev
+* Dependencies
+- gcc/clang
 
-* Build
-#+BEGIN_SRC shell
-sudo apt install libeigen3-dev
+* Getting startegd
+#+BEGIN_SRC sh
 git clone git@git.ryanwatkins.me:base/sqint.git;
 cd sqint;
 make
