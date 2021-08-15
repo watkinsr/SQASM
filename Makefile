@@ -5,7 +5,7 @@
 # @version 0.1
 
 IDIR=include
-CPPFLAGS=-g -I$(IDIR) -lstdc++
+CPPFLAGS=-g -I$(IDIR) -lstdc++ -std=c++11 -Wall
 
 LIBS=
 
