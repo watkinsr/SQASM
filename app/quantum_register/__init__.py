@@ -23,3 +23,6 @@ class QuantumRegister:
             quantum_gate_matrix,
             self.amps
         )
+
+    def readState(self):
+        print(self.amps.T)  # readable form

@@ -1,6 +1,7 @@
+from app.service import QuantumSimulatorService
 from app.quantum_register import QuantumRegister
 
-from app.quantum_gates import HAD
+from app.quantum_gates import CNOT, HAD, ID
 
 import numpy as np
 
@@ -232,6 +233,8 @@ def pretty(reg, y=0):
 
     return str('|' + zeroes + str(x) + '>')
 
+quantum_simulator_service = QuantumSimulatorService()
+
 if __name__ == "__main__":
     # adder = Adder()
     # m = Multiplier()
@@ -239,18 +242,15 @@ if __name__ == "__main__":
 
     # Bell states demonstration - Entanglement of states
     # Init state |00>
-    reg = QuantumRegister(
+    quantum_register = QuantumRegister(
         number_of_qubits=2,
         binary_one_position=2
     )
 
-    print(HAD)
-
     # Remember - computation basis for 2 qubit system ~ |00>, |01>, |10>, |11>
-    # qs.applyGate(t(HAD, ID), reg)  # Hadamard the first bit
-    # qs.applyGate(CNOT, reg)  # Apply CNOT
-
-    # print(reg.amps.T)  # readable form
+    quantum_register.applyGate(quantum_simulator_service.tensor(HAD, ID))
+    quantum_register.applyGate(CNOT)
+    quantum_register.readState()
 
     # SWAP gate demonstration on two qubit system
     # reg = QReg(2, 2)  # Init state |00>
