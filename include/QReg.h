@@ -9,19 +9,16 @@ using namespace std;
 class QReg
 {
 public:
-    QReg(size_t numberOfQubits)
+    QReg(size_t numberOfQubits, int init_bit)
     {
         numberOfQubits = numberOfQubits;
         qubits = (int *)calloc(sizeof(int), numberOfQubits);
-        int numberOfAmplitudes = (1 << numberOfQubits);
-        printf("Number of qubits: %zu\n", numberOfQubits);
-        printf("Number of amplitudes: %i\n", numberOfAmplitudes);
+        numberOfAmplitudes = (1 << numberOfQubits);
 
         vector<vector<complex<double>>> matrix_(numberOfAmplitudes, vector<complex<double>>(1));
         amplitude_matrix = matrix_;
 
-        // Default set last value as 1.
-        amplitude_matrix[numberOfAmplitudes - 1][0] = 1;
+        amplitude_matrix[init_bit][0] = 1;
 
         // Initialize hadamard gate
         vector<vector<complex<double>>> HAD_GATE_(2, vector<complex<double>>(2));

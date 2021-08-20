@@ -114,8 +114,7 @@ int lsh_init(char **args)
     else
     {
         int amountOfQubits = atoi(args[2]);
-        QReg reg = QReg(amountOfQubits);
-        reg.applyGate();
+        QReg reg = QReg(amountOfQubits, 2);
     }
     return 1;
 }
