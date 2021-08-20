@@ -39,14 +39,11 @@ public:
     }
 
     void applyGate();
+    vector<vector<complex<double>>> HAD_GATE;
     vector<vector<complex<double>>> ID_GATE;
 
 private:
     int numberOfQubits;
     int *qubits;
     vector<vector<complex<double>>> amplitude_matrix;
-    vector<vector<complex<double>>> HAD_GATE;
-
-
-
 };
