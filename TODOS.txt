@@ -1,0 +1,3 @@
+x Implement tensor function
+- Fix dot product amplitudes
+- Verify we can reproduce a entanglement
