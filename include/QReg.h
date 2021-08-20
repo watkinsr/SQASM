@@ -28,9 +28,18 @@ public:
         HAD_GATE[0][1] = 1 / sqrt(2);
         HAD_GATE[1][0] = 1 / sqrt(2);
         HAD_GATE[1][1] = -1 / sqrt(2);
+
+        vector<vector<complex<double>>> ID_GATE_(2, vector<complex<double>>(2));
+        ID_GATE = ID_GATE_;
+
+        ID_GATE[0][0] = 1;
+        ID_GATE[0][1] = 0;
+        ID_GATE[1][0] = 0;
+        ID_GATE[1][1] = 1;
     }
 
     void applyGate();
+    vector<vector<complex<double>>> ID_GATE;
 
 private:
     int numberOfQubits;
