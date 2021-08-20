@@ -44,6 +44,7 @@ public:
 
 private:
     int numberOfQubits;
+    int numberOfAmplitudes;
     int *qubits;
     vector<vector<complex<double>>> amplitude_matrix;
 };
