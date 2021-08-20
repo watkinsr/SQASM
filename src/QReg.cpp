@@ -56,5 +56,15 @@ vector<vector<complex<double>>> QReg::tensor(vector<vector<complex<double>>> A, 
 
     return C;
 }
+void QReg::printGate(vector<vector<complex<double>>> gate) {
+    for (auto row: gate) {
+        for (auto value: row) {
+            std::cout << value << ' ';
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
     }
 }
