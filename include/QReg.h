@@ -39,6 +39,7 @@ public:
     }
 
     void applyGate();
+    void printAmplitudes();
     vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
     vector<vector<complex<double>>> HAD_GATE;
     vector<vector<complex<double>>> ID_GATE;

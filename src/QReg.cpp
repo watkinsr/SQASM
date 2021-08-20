@@ -66,5 +66,11 @@ void QReg::printGate(vector<vector<complex<double>>> gate) {
     printf("\n");
 }
 
+void QReg::printAmplitudes() {
+    for (auto row: amplitude_matrix) {
+        for (auto column: row) {
+            std::cout << column << ' ';
+        }
     }
+    printf("\n");
 }
