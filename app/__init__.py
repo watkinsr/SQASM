@@ -236,21 +236,14 @@ def pretty(reg, y=0):
 quantum_simulator_service = QuantumSimulatorService()
 
 if __name__ == "__main__":
+    quantum_simulator_service.get_quantum_entanglement_system()
+
     # adder = Adder()
     # m = Multiplier()
     # qs = QSimulator()
 
     # Bell states demonstration - Entanglement of states
     # Init state |00>
-    quantum_register = QuantumRegister(
-        number_of_qubits=2,
-        binary_one_position=2
-    )
-
-    # Remember - computation basis for 2 qubit system ~ |00>, |01>, |10>, |11>
-    quantum_register.applyGate(quantum_simulator_service.tensor(HAD, ID))
-    quantum_register.applyGate(CNOT)
-    quantum_register.readState()
 
     # SWAP gate demonstration on two qubit system
     # reg = QReg(2, 2)  # Init state |00>
@@ -267,5 +260,3 @@ if __name__ == "__main__":
 
     # -- TESTING - #
     # runTests(qs, adder, m)
-
-    print('Starting up quantum simulator...   DONE')

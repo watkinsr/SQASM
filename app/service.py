@@ -1,24 +1,51 @@
+from typing import Optional
+from app.quantum_register import QuantumRegister
+from app.quantum_gates import CNOT, HAD, ID
 import logging
 import numpy as np
 
 class QuantumSimulatorService:
     def __init__(self) -> None:
+        logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
+    def get_quantum_entanglement_system(self):
+        # computation basis for 2 qubit system ~ |00>, |01>, |10>, |11>
+        quantum_register = QuantumRegister(
+            number_of_qubits=2,
+            binary_one_position=2
+        )
+
+        self.logger.info(f"Quantum computational basis at init: {quantum_register.amps.T}")
+
+        self.logger.info(self.tensor(HAD, ID))
+
+        self.logger.info("Apply HADxID")
+        quantum_register.applyGate(self.tensor(HAD, ID))
+        self.logger.info(f"Quantum computational basis after: {quantum_register.amps.T}")
+
+        self.logger.info("Apply CNOT")
+        quantum_register.applyGate(CNOT)
+
+        self.logger.info(f"Quantum computational basis after: {quantum_register.amps.T}")
+
     @staticmethod
-    def tensor(f1, f2, f3=0, f4=0):
-        """
-        Tensor product for up to three functions
-        """
-        if(type(f3) is int):
-            return np.kron(f1, f2)
-        elif(type(f4) is int):
-            u = np.kron(f1, f2)
-            return np.kron(u, f3)
+    def tensor(
+        A: np.matrix,
+        B: np.matrix,
+        C: Optional[np.matrix] = None,
+        D: Optional[np.matrix] = None
+    ):
+        if(C == None):
+            U = np.kron(A, B)
+            return U
+        elif(D == None):
+            U = np.kron(A, B)
+            return np.kron(U, C)
         else:
-            u = np.kron(f1, f2)
-            u = np.kron(u, f3)
-            return np.kron(u, f4)
+            U = np.kron(A, B)
+            U = np.kron(U, C)
+            return np.kron(U, D)
 
     @staticmethod
     def bArrToDec(ba):
