@@ -1,15 +1,11 @@
 #include "../include/QReg.h"
 
-void QReg::applyGate() {
-    printf("applyGate\n");
 using namespace std;
 
-    printf("Printing hadamard gate...\n");
-    for (auto row : HAD_GATE) {
-      for (auto column : row) {
-        std::cout << column << ' ';
-      }
-      printf("\n");
+void QReg::applyGate(vector<vector<complex<double>>> gate) {
+    amplitude_matrix = dot_product_amplitudes(gate);
+}
+
 vector<vector<complex<double>>> QReg::tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B)
 {
 

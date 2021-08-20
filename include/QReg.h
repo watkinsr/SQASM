@@ -38,7 +38,7 @@ public:
         ID_GATE[1][1] = 1;
     }
 
-    void applyGate();
+    void applyGate(vector<vector<complex<double>>> gate);
     void printAmplitudes();
     vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
     vector<vector<complex<double>>> HAD_GATE;
