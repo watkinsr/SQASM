@@ -52,6 +52,35 @@ vector<vector<complex<double>>> QReg::tensor(vector<vector<complex<double>>> A, 
 
     return C;
 }
+
+vector<vector<complex<double>>> QReg::dot_product_amplitudes(vector<vector<complex<double>>> gate) {
+    int k = 0;
+
+    vector<vector<complex<double>>> C(numberOfAmplitudes, vector<complex<double>>(1));
+
+    vector<vector<complex<double>>> temporary_gate_transposed(numberOfAmplitudes, vector<complex<double>>(1));
+
+    for (auto row: gate) {
+        for (auto column: row) {
+            temporary_gate_transposed[k][0] = column;
+            k++;
+        }
+    }
+
+    k = 0;
+
+    for (auto row: amplitude_matrix) {
+        for (auto amplitude: row) {
+            auto gate_value = temporary_gate_transposed[k][0];
+            auto dot_value = amplitude * gate_value;
+            C[k][0] = dot_value;
+            k++;
+        }
+    }
+
+    return C;
+}
+
 void QReg::printGate(vector<vector<complex<double>>> gate) {
     for (auto row: gate) {
         for (auto value: row) {

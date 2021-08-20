@@ -39,6 +39,7 @@ public:
     }
 
     void applyGate(vector<vector<complex<double>>> gate);
+    vector<vector<complex<double>>> dot_product_amplitudes(vector<vector<complex<double>>> gate);
     void printAmplitudes();
     vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
     vector<vector<complex<double>>> HAD_GATE;
