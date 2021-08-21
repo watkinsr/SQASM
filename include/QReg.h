@@ -20,22 +20,25 @@ public:
 
         amplitude_matrix[init_bit][0] = 1;
 
-        // Initialize hadamard gate
-        vector<vector<complex<double>>> HAD_GATE_(2, vector<complex<double>>(2));
-        HAD_GATE = HAD_GATE_;
+        HAD_GATE =
+            {
+                {1 / sqrt(2), 1 / sqrt(2)},
+                {1 / sqrt(2), -1 / sqrt(2)}
+            };
 
-        HAD_GATE[0][0] = 1 / sqrt(2);
-        HAD_GATE[0][1] = 1 / sqrt(2);
-        HAD_GATE[1][0] = 1 / sqrt(2);
-        HAD_GATE[1][1] = -1 / sqrt(2);
+        ID_GATE =
+            {
+                {1, 0},
+                {0, 1}
+            };
 
-        vector<vector<complex<double>>> ID_GATE_(2, vector<complex<double>>(2));
-        ID_GATE = ID_GATE_;
-
-        ID_GATE[0][0] = 1;
-        ID_GATE[0][1] = 0;
-        ID_GATE[1][0] = 0;
-        ID_GATE[1][1] = 1;
+        CNOT_GATE =
+            {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 0, 1},
+                {0, 0, 1, 0}
+            };
     }
 
     void applyGate(vector<vector<complex<double>>> gate);
@@ -44,6 +47,7 @@ public:
     vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
     vector<vector<complex<double>>> HAD_GATE;
     vector<vector<complex<double>>> ID_GATE;
+    vector<vector<complex<double>>> CNOT_GATE;
     void printGate(vector<vector<complex<double>>> gate);
 
 private:
