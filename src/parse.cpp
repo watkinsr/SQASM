@@ -115,12 +115,9 @@ int lsh_init(char **args)
     {
         int amountOfQubits = atoi(args[2]);
         QReg reg = QReg(amountOfQubits, 2);
-        auto tensored_gate = reg.tensor(reg.HAD_GATE, reg.ID_GATE);
-        reg.printGate(tensored_gate);
-
-        // reg.applyGate(tensored_gate);
-        // printf("After applying hadamard: \n");
-        // reg.printAmplitudes();
+        reg.applyGate(reg.tensor(reg.HAD_GATE, reg.ID_GATE));
+        reg.applyGate(reg.CNOT_GATE);
+        reg.printAmplitudes();
     }
     return 1;
 }
