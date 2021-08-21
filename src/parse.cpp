@@ -101,12 +101,8 @@ int lsh_num_builtins()
     return sizeof(tokens) / sizeof(char *);
 }
 
-/*
-  Builtin function implementations.
-*/
 int lsh_init(char **args)
 {
-    printf("Found INIT token.\n");
     if (args[1] == NULL || args[2] == NULL || args[3] == NULL)
     {
         fprintf(stderr, "invalid args to INIT, example: INIT R2 2 0\n");
@@ -115,19 +111,44 @@ int lsh_init(char **args)
     {
         int amountOfQubits = atoi(args[2]);
         QReg reg = QReg(amountOfQubits, 2);
-        reg.applyGate(reg.tensor(reg.HAD_GATE, reg.ID_GATE));
-        reg.applyGate(reg.CNOT_GATE);
+        auto U = reg.tensor(reg.HAD_GATE, reg.ID_GATE);
+        reg.applyGateToSystem(U);
+        reg.applyGateToSystem(reg.CNOT_GATE);
         reg.printAmplitudes();
     }
     return 1;
 }
 
+int lsh_formgate(char **args)
+{
+    if (args[1] == NULL || args[2] == NULL || args[3] == NULL)
+    {
+        fprintf(stderr, "bad input");
+        return 1;
+    }
+    else
+    {
+        try
+        {
+            auto gate1 = QReg::getGateByString(args[2]);
+            auto gate2 = QReg::getGateByString(args[3]);
+            auto U = QReg::tensor(gate1, gate2);
+            QReg::printGate(U);
+            return 1;
+        }
+        catch (const std::invalid_argument& e)
+        {
+            printf("Error: %s\n", e.what());
+            return 1;
+        }
+    }
+}
+
 
 int lsh_help(char **args)
 {
-    printf("Welcome to simple quantum interpreter (SQINT)");
-    printf("Consult examples for example program text");
-
+    printf("SQINT - Simple Quantum Interpreter\n");
+    printf("To initialize a register use INIT (register, numberOfQubits, initBit)\n");
     return 1;
 }
 

@@ -10,9 +10,14 @@ char **lsh_split_line(char *line);
 int lsh_exit(char **args);
 int lsh_execute(char **args);
 int lsh_init(char **args);
+int lsh_formgate(char **args);
 
-const char *tokens[] = {"INIT"};
+const char *tokens[] = {
+    "INIT",
+    "FORMGATE"
+};
 
-int (*builtin_func[])(char **) = {&lsh_init};
-// &lsh_u,
-// &lsh_apply};
+int (*builtin_func[])(char **) = {
+    &lsh_init,
+    &lsh_formgate
+};

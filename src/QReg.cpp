@@ -1,8 +1,10 @@
 #include "../include/QReg.h"
+#include <cstring>
+#include <stdexcept>
 
 using namespace std;
 
-void QReg::applyGate(vector<vector<complex<double>>> gate) {
+void QReg::applyGateToSystem(vector<vector<complex<double>>> gate) {
     amplitude_matrix = dot_product_amplitudes(gate);
 }
 
@@ -83,6 +85,7 @@ void QReg::printGate(vector<vector<complex<double>>> gate) {
 }
 
 void QReg::printAmplitudes() {
+    std::cout << "System: ";
     for (auto row: amplitude_matrix) {
         for (auto column: row) {
             std::cout << column << ' ';
@@ -90,3 +93,43 @@ void QReg::printAmplitudes() {
     }
     printf("\n");
 }
+
+vector<vector<complex<double>>> QReg::getGateByString(const char* gate)
+{
+    if (strcmp(gate, "HAD") == 0)
+    {
+        return QReg::HAD_GATE;
+    }
+    else if (strcmp(gate, "ID") == 0)
+    {
+        return QReg::ID_GATE;
+    }
+    else if (strcmp(gate, "CNOT") == 0)
+    {
+        return QReg::CNOT_GATE;
+    }
+    else
+    {
+        throw std::invalid_argument("invalid gate provided");
+    }
+}
+
+const vector<vector<complex<double>>> QReg::CNOT_GATE =
+{
+    {1, 0, 0, 0},
+    {0, 1, 0, 0},
+    {0, 0, 0, 1},
+    {0, 0, 1, 0}
+};
+
+const vector<vector<complex<double>>> QReg::ID_GATE =
+{
+    {1, 0},
+    {0, 1}
+};
+
+const vector<vector<complex<double>>> QReg::HAD_GATE =
+{
+    {1 / sqrt(2), 1 / sqrt(2)},
+    {1 / sqrt(2), -1 / sqrt(2)}
+};

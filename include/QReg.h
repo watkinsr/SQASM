@@ -19,36 +19,18 @@ public:
         amplitude_matrix = matrix_;
 
         amplitude_matrix[init_bit][0] = 1;
-
-        HAD_GATE =
-            {
-                {1 / sqrt(2), 1 / sqrt(2)},
-                {1 / sqrt(2), -1 / sqrt(2)}
-            };
-
-        ID_GATE =
-            {
-                {1, 0},
-                {0, 1}
-            };
-
-        CNOT_GATE =
-            {
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 0, 1},
-                {0, 0, 1, 0}
-            };
     }
 
-    void applyGate(vector<vector<complex<double>>> gate);
+    void applyGateToSystem(vector<vector<complex<double>>> gate);
     vector<vector<complex<double>>> dot_product_amplitudes(vector<vector<complex<double>>> gate);
     void printAmplitudes();
-    vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
-    vector<vector<complex<double>>> HAD_GATE;
-    vector<vector<complex<double>>> ID_GATE;
-    vector<vector<complex<double>>> CNOT_GATE;
-    void printGate(vector<vector<complex<double>>> gate);
+    static vector<vector<complex<double>>> tensor(vector<vector<complex<double>>> A, vector<vector<complex<double>>> B);
+    const static vector<vector<complex<double>>> HAD_GATE;
+    const static vector<vector<complex<double>>> ID_GATE;
+    const static vector<vector<complex<double>>> CNOT_GATE;
+    static void printGate(vector<vector<complex<double>>> gate);
+
+    static vector<vector<complex<double>>> getGateByString(const char* gate);
 
 private:
     int numberOfQubits;
