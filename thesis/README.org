@@ -1,0 +1,5 @@
+* Description
+Original thesis and slides from BSc. Computer Science final project at University of Reading in May 2016
+
+* Code
+[[https://github.com/watkinsr/SQASM][SQASM]]
