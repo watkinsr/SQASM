@@ -4,6 +4,13 @@ x Verify we can reproduce a entanglement
 - support example1
   - FORMGATE U HAD ID
   - APPLY U R
-  - SELECT S1 R2 0 1  (need to understand this)
-- introspection of registers/gates
-- help command
+
+  - harder:
+    - SELECT S1 R2 0 1 (0-1 is a range, S1 is where it's saved and R2 is the register)
+    - MEASURE RES S1 (measure S1) (porbably hardest to support.)
+
+- we will drop ADD for now because too complex.
+
+- REPL stuff:
+  - introspection of registers/gates
+  - help command
