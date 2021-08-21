@@ -1,3 +1,9 @@
 x Implement tensor function
-- Fix dot product amplitudes
-- Verify we can reproduce a entanglement
+x Fix dot product amplitudes
+x Verify we can reproduce a entanglement
+- support example1
+  - FORMGATE U HAD ID
+  - APPLY U R
+  - SELECT S1 R2 0 1  (need to understand this)
+- introspection of registers/gates
+- help command
