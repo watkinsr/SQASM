@@ -1,37 +1,15 @@
 # -*- mode: org; -*-
 #+AUTHOR: Ryan Watkins
 #+TITLE: QPL Interpreter
-
-* Dependencies
-- gcc/clang
-
-* Getting startegd
+* Getting started
 #+BEGIN_SRC sh
-git clone git@git.ryanwatkins.me:base/sqint.git;
-cd sqint;
 make
 #+END_SRC
 
 * Usage
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 ./bin/parse
 #+END_SRC
 
 * Description
-Currently this implements some quantum gates and quantum adder operations as found in research papers.
-
-* Example input(HADAMARD -> CNOT)
-#+BEGIN_SRC
-INITIALIZE R 2 0
-U TENSOR HAD ID
-APPLY U R
-APPLY CNOT R
-PEEK R RES
-#+END_SRC
-
-* TODO
-** TODO Rebuild in C (in progress)
-** TODO Nice to have: Include quantum algorithms
-
-* Licence
-GNU GPL3
+Quantum computation interpreter
