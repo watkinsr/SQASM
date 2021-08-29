@@ -1,16 +1,15 @@
-x Implement tensor function
-x Fix dot product amplitudes
-x Verify we can reproduce a entanglement
+[x] Implement tensor function
+[x] Fix dot product amplitudes
+[x] Verify we can reproduce a entanglement
 - support example1
-  - FORMGATE U HAD ID
-  - APPLY U R
-
-  - harder:
-    - SELECT S1 R2 0 1 (0-1 is a range, S1 is where it's saved and R2 is the register)
-    - MEASURE RES S1 (measure S1) (porbably hardest to support.)
-
+  - [x] FORMGATE U HAD ID
+    - [x] need to form hashmap for storing variables
+  - [ ] APPLY U R
+  - [ ] harder:
+    - [ ] SELECT S1 R2 0 1 (0-1 is a range, S1 is where it's saved and R2 is the register)
+    - [ ] MEASURE RES S1 (measure S1) (porbably hardest to support.)
+- [ ] REPL stuff:
+  - [ ] introspection of registers/gates
+  - [ ] help command
+Notes;
 - we will drop ADD for now because too complex.
-
-- REPL stuff:
-  - introspection of registers/gates
-  - help command
