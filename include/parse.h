@@ -15,6 +15,7 @@ int execute_cmd(char **args);
 int sqint_init(char **args);
 int sqint_formgate(char **args);
 int sqint_peek(char **args);
+int sqint_apply(char **args);
 int shell_help(char **args);
 
 unordered_map<string, QuantumGate> gateHashmap;
@@ -24,6 +25,7 @@ const char *tokens[] = {
     "INIT",
     "FORMGATE",
     "PEEK",
+    "APPLY",
     "help",
 };
 
@@ -31,5 +33,6 @@ int (*builtin_func[])(char **) = {
     &sqint_init,
     &sqint_formgate,
     &sqint_peek,
+    &sqint_apply,
     &shell_help,
 };

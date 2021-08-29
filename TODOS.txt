@@ -4,12 +4,10 @@
 - support example1
   - [x] FORMGATE U HAD ID
     - [x] need to form hashmap for storing variables
-  - [ ] APPLY U R
+  - [x] APPLY U R
   - [ ] harder:
     - [ ] SELECT S1 R2 0 1 (0-1 is a range, S1 is where it's saved and R2 is the register)
-    - [ ] MEASURE RES S1 (measure S1) (porbably hardest to support.)
-- [ ] REPL stuff:
-  - [ ] introspection of registers/gates
-  - [ ] help command
-Notes;
-- we will drop ADD for now because too complex.
+    - [ ] MEASURE RES S1 (measure S1) (probably hardest to support.)
+- [x] REPL stuff:
+  - [x] introspection of registers
+  - [x] help command

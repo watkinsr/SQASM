@@ -116,6 +116,25 @@ int sqint_peek(char **args) {
   }
 }
 
+int sqint_apply(char **args) {
+  if (args[1] == NULL || args[2] == NULL) {
+    fprintf(stderr, "bad input");
+    return 1;
+  } else {
+    auto gateIter = gateHashmap.find(args[1]);
+    if (gateIter == gateHashmap.end()) {
+      printf("Couldn't find gate variable.\n");
+    }
+    auto registerIter = quantumRegisterHashmap.find(args[2]);
+    if (registerIter == quantumRegisterHashmap.end()) {
+      printf("Couldn't find register variable.\n");
+    }
+    registerIter->second.applyGateToSystem(gateIter->second);
+    registerIter->second.printAmplitudes();
+    return 1;
+  }
+}
+
 int sqint_formgate(char **args) {
   if (args[1] == NULL || args[2] == NULL || args[3] == NULL) {
     fprintf(stderr, "bad input");
@@ -141,6 +160,7 @@ int shell_help(char **args) {
   printf("To initialize a register use INIT REG QUBITSIZE INITBIT\n");
   printf("To form a gate use FORMGATE VAR GATE1 GATE2\n");
   printf("To peek at a register use PEEK REGISTERNAME\n");
+  printf("To apply a register to a register use APPLY GATE REGISTER\n");
   return 1;
 }
 
