@@ -3,12 +3,15 @@
 #+TITLE: QPL Interpreter
 * Getting started
 #+BEGIN_SRC sh
+cmake -S . -B build
+cd build
 make
 #+END_SRC
 
 * Usage
 #+BEGIN_SRC sh
-./bin/parse
+cd build
+./sqint
 #+END_SRC
 
 * Description
