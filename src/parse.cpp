@@ -45,7 +45,7 @@ char *read_line(void) {
 }
 
 char **split_line(char *line) {
-  size_t bufsize = LSH_TOK_BUFSIZE;
+  size_t bufsize = INTERPRETER_TOK_BUFSIZE;
   size_t position = 0;
   char **tokens = (char **)malloc(bufsize * sizeof(char *));
   char *token;
@@ -55,14 +55,13 @@ char **split_line(char *line) {
     exit(EXIT_FAILURE);
   }
 
-  token = strtok(line, LSH_TOK_DELIM);
+  token = strtok(line, INTERPRETER_TOK_DELIM);
 
   while (token != NULL) {
-    // printf("token: %s\n", token);
     tokens[position++] = token;
 
     if (position >= bufsize) {
-      bufsize += LSH_TOK_BUFSIZE;
+      bufsize += INTERPRETER_TOK_BUFSIZE;
       tokens = (char **)realloc(tokens, bufsize * sizeof(char *));
       if (!tokens) {
         fprintf(stderr, "lsh: allocation error\n");
@@ -70,7 +69,7 @@ char **split_line(char *line) {
       }
     }
 
-    token = strtok(NULL, LSH_TOK_DELIM);
+    token = strtok(NULL, INTERPRETER_TOK_DELIM);
   }
   tokens[position] = NULL;
   return tokens;
@@ -82,6 +81,7 @@ char **split_line(char *line) {
 
 int get_num_commands() { return sizeof(tokens) / sizeof(char *); }
 
+// TODO: Should be moved to it's own class.
 int sqint_init(char **args) {
   if (args[1] == NULL || args[2] == NULL || args[3] == NULL) {
     fprintf(stderr, "invalid args to INIT, example: INIT R2 2 0\n");

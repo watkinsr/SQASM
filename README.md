@@ -1,18 +1,14 @@
-# -*- mode: org; -*-
-#+AUTHOR: Ryan Watkins
-#+TITLE: QPL Interpreter
 * Getting started
-#+BEGIN_SRC sh
+```sh
 cmake -S . -B build
 cd build
 make
-#+END_SRC
+```
 
 * Usage
-#+BEGIN_SRC sh
+```
 cd build
 ./sqint
-#+END_SRC
-
+```
 * Description
 Quantum computation interpreter

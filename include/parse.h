@@ -3,9 +3,9 @@
 #include <string>
 #include "QReg.h"
 
-#define LSH_RL_BUFSIZE 1024
-#define LSH_TOK_BUFSIZE 64
-#define LSH_TOK_DELIM " \t\r\n\a"
+#define INTERPRETER_RL_BUFSIZE 1024
+#define INTERPRETER_TOK_BUFSIZE 64
+#define INTERPRETER_TOK_DELIM " \t\r\n\a"
 
 void interpreter_loop(void);
 char *read_line(void);
