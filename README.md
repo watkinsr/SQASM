@@ -1,14 +1,12 @@
-* Getting started
-```sh
-cmake -S . -B build
-cd build
-make
-```
+# Description
+Quantum computation simulation interpreter in C++.
 
-* Usage
+# Getting started
+## Build
+```sh
+./Meta/build.sh
 ```
-cd build
-./sqint
+## Run
+```sh
+./build/sqint
 ```
-* Description
-Quantum computation interpreter
