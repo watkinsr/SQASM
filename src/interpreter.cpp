@@ -3,104 +3,110 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <algorithm>
+#include "interpreter.h"
 
-#include "../include/interpreter.h"
+Interpreter::Interpreter() {
+    _engine = make_unique<QuantumComputationEngine>();
+}
 
-namespace Interpreter {
-  Interpreter::Interpreter() {
-    Engine::QuantumComputationEngine* mEngine = new Engine::QuantumComputationEngine();
-  }
-
-  void Interpreter::loop(void) {
-    printf("Begin loop.\n");
+void Interpreter::loop(void) {
+    LOG_INFO("Begin loop.");
     do {
-      printf("> ");
-      mStatus = -1;
-      read_line();
-      mArgs = split_line(mLine);
-      mStatus = exec(mArgs);
-      printf("\nStatus was: %d", mStatus);
-      printf("\n");
-    } while(mStatus != -1);
-  }
+        fprintf(stdout, "> ");
+        _status = -1;
+        read_line();
+        _args = split_line(mLine);
+        _status = exec(_args);
+    } while(_status != -1);
+}
 
-  void Interpreter::read_line(void) {
+void Interpreter::read_line(void) {
     size_t bufsize = 0; // have getline allocate a buffer for us
 
     if (getline(&mLine, &bufsize, stdin) == -1) {
-      if (feof(stdin)) {
-        fprintf(stderr, "Error: got EOF.");
-      } else {
-        fprintf(stderr , "Error: readline general error.");
-      }
+        if (feof(stdin)) {
+            fprintf(stderr, "Error: got EOF.");
+        } else {
+            fprintf(stderr , "Error: readline general error.");
+        }
     }
-  }
+}
 
-  char** Interpreter::split_line(char *line) {
+char** Interpreter::split_line(char *line) {
     size_t bufsize = INTERPRETER_TOK_BUFSIZE;
     size_t position = 0;
     char **tokens = (char **)malloc(bufsize * sizeof(char *));
     char *token;
 
     if (!tokens) {
-      fprintf(stderr, "Error: token allocation failed.");
-      exit();
+        fprintf(stderr, "Error: token allocation failed.");
+        exit(EXIT_FAILURE);
     }
 
     token = strtok(line, INTERPRETER_TOK_DELIM);
 
     while (token != NULL) {
-      tokens[position++] = token;
+        tokens[position++] = token;
 
-      if (position >= bufsize) {
-        bufsize += INTERPRETER_TOK_BUFSIZE;
-        tokens = (char **)realloc(tokens, bufsize * sizeof(char *));
-        if (!tokens) {
-          fprintf(stderr, "Error: Unable to allocate correctly for tokens.");
-          exit();
+        if (position >= bufsize) {
+            bufsize += INTERPRETER_TOK_BUFSIZE;
+            tokens = (char **)realloc(tokens, bufsize * sizeof(char *));
+            if (!tokens) {
+                fprintf(stderr, "Error: Unable to allocate correctly for tokens.");
+                exit(EXIT_FAILURE);
+            }
         }
-      }
 
-      token = strtok(NULL, INTERPRETER_TOK_DELIM);
+        token = strtok(NULL, INTERPRETER_TOK_DELIM);
     }
     tokens[position] = NULL;
     return tokens;
-  }
+}
 
-  int Interpreter::help(char **args) {
-    printf("SQINT - Simple Quantum Interpreter\n");
-    printf("To initialize a register use INIT REG QUBITSIZE INITBIT\n");
-    printf("To form a gate use FORMGATE VAR GATE1 GATE2\n");
-    printf("To peek at a register use PEEK REGISTERNAME\n");
-    printf("To apply a register to a register use APPLY GATE REGISTER\n");
+int Interpreter::help(std::vector<std::string> args) {
+    fprintf(stdout, "SQINT - Simple Quantum Interpreter\n");
+    fprintf(stdout, "INIT - INIT <REG> <QUBITSIZE> <INIT_BIT>\n");
+    fprintf(stdout, "FORMGATE - FORMGATE <VAR> <GATE1> <GATE2>\n");
+    fprintf(stdout, "PEEK - PEEK <REG>\n");
+    fprintf(stdout, "APPLY - APPLY <GATE> <REG>\n");
     return 1;
-  }
+}
 
-  int Interpreter::exit() { return 0; }
+int Interpreter::exec(char **_args) {
+    LOG_INFO("[TRACE] Interpreter::exec(?)");
 
-  int Interpreter::exec(char **args) {
-    if (args[0] == NULL) {
-      fprintf(stderr, "Error: Parse error on command. Exiting.");
-      return exit();
+    std::vector<std::string> args = {};
+    if (_args[0] == NULL) {
+        fprintf(stderr, "Please provide arguments.");
+        return help(args);
     }
-    char *cmd = args[0];
-    if (strcmp(cmd, "exit") == 0) {
-      return exit();
-    } else if (strcmp(cmd, "HELP") == 0) {
-      return help(args);
-    } else if (strcmp(cmd, "INIT") == 0) {
-      return mEngine->init(args);
-    } else if (strcmp(cmd, "FORMGATE") == 0) {
-      return mEngine->formgate(args);
-    } else if (strcmp(cmd, "PEEK") == 0) {
-      return mEngine->peek(args);
-    } else if (strcmp(cmd, "APPLY") == 0) {
-      return mEngine->apply(args);
+
+    int i = 0;
+    while(_args[i] != NULL) {
+        args.push_back(_args[i]);
+        i++;
+    }
+
+    std::string cmd = std::string(_args[0]);
+    std::transform(cmd.begin(), cmd.end(), cmd.begin(),
+    [](unsigned char c){ return std::tolower(c); });
+
+    if (cmd == "exit") {
+        return help(args);
+    } else if (cmd == "help") {
+        return help(args);
+    } else if (cmd == "init") {
+        return _engine->init(args);
+    } else if (cmd == "formgate") {
+        return _engine->formgate(args);
+    } else if (cmd == "peek") {
+        return _engine->peek(args);
+    } else if (cmd == "apply") {
+        return _engine->apply(args);
+    } else if (cmd == "quit") {
+        exit(0);
     } else {
-      fprintf(stderr, "Error: Incorrect command passed.");
-      return -1;
+        return help(args);
     }
-  }
-};
-
-
+}

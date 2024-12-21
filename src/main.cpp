@@ -1,8 +1,8 @@
-#include "../include/interpreter.h"
+#include <memory>
+#include "interpreter.h"
 
 int main(void) {
-  printf("Entry point.\n");
-  Interpreter::Interpreter* interpreter = new Interpreter::Interpreter();
-  printf("Interpreter created.\n");
+  std::unique_ptr<Interpreter> interpreter = make_unique<Interpreter>();
+  LOG_INFO("Interpreter created.");
   interpreter->loop();
 }

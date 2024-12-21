@@ -4,7 +4,7 @@ Quantum computation simulation interpreter in C++.
 # Getting started
 ## Build
 ```sh
-./Meta/build.sh
+make build
 ```
 ## Run
 ```sh
