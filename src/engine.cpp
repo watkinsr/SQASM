@@ -30,14 +30,31 @@ int QuantumComputationEngine::peek(std::vector<std::string> args) {
 }
 
 int QuantumComputationEngine::apply(std::vector<std::string> args) {
-    if (_gate_map.find(args[1]) == _gate_map.end() || _reg_map.find(args[2]) == _reg_map.end()) {
-        fprintf(stderr, "Invalid arguments.\n");
-    } else {
-        auto gate = _gate_map.at(args[1]);
-        auto reg = _reg_map.at(args[2]);
-        reg.apply(gate);
-        reg.printAmplitudes();
+    QuantumGate gate;
+    if (_reg_map.find(args[2]) == _reg_map.end()) {
+        fprintf(stdout, "Unable to find register. Please provide correct register.\n");
+        fprintf(stdout, "Current registers: [");
+        uint8_t idx = 0;
+        for (const auto& [key, reg] : _reg_map) {
+            fprintf(stdout, key.c_str());
+            if (idx != _reg_map.size() -1) fprintf(stdout, ",");
+            idx++;
+        }
+        fprintf(stdout, "]\n");
+        return 1;
     }
+    if (_gate_map.find(args[1]) == _gate_map.end()) {
+        gate = Register::getGate(args[1].c_str());
+        if (gate == Register::NO_GATE) {
+            fprintf(stderr, "Cannot comply with apply command, please offer correct gate.\n");
+            return 1;
+        }
+    } else {
+        gate = _gate_map.at(args[1]);
+    }
+    auto reg = _reg_map.at(args[2]);
+    reg.apply(gate);
+    reg.printAmplitudes();
     return 1;
 }
 

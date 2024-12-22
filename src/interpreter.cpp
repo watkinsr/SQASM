@@ -68,8 +68,11 @@ int Interpreter::help(std::vector<std::string> args) {
     fprintf(stdout, "SQINT - Simple Quantum Interpreter\n");
     fprintf(stdout, "INIT - INIT <REG> <QUBITSIZE> <INIT_BIT>\n");
     fprintf(stdout, "FORMGATE - FORMGATE <VAR> <GATE1> <GATE2>\n");
+    fprintf(stdout, "Note: Forming a gate is a tensor operation on GATE1 and GATE2.\n");
     fprintf(stdout, "PEEK - PEEK <REG>\n");
     fprintf(stdout, "APPLY - APPLY <GATE> <REG>\n");
+    fprintf(stdout, "Gates available - HAD (hadamard), ID (identity) and CNOT\n");
+    fprintf(stdout, "To exit, type quit.\n");
     return 1;
 }
 

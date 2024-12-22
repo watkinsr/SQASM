@@ -23,6 +23,7 @@ class Register {
         const static QuantumGate HAD_GATE;
         const static QuantumGate ID_GATE;
         const static QuantumGate CNOT_GATE;
+        const static QuantumGate NO_GATE;
         static void printGate(QuantumGate gate);
         static QuantumGate getGate(const char* gate);
 };

@@ -96,7 +96,7 @@ QuantumGate Register::getGate(const char* gate) {
     } else if (strcmp(gate, "CNOT") == 0) {
         return Register::CNOT_GATE;
     } else {
-        throw std::invalid_argument("invalid gate provided");
+        return Register::NO_GATE;
     }
 }
 
@@ -105,6 +105,13 @@ const QuantumGate Register::CNOT_GATE = {
     {0, 1, 0, 0},
     {0, 0, 0, 1},
     {0, 0, 1, 0}
+};
+
+const QuantumGate Register::NO_GATE = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0}
 };
 
 const QuantumGate Register::ID_GATE = {
