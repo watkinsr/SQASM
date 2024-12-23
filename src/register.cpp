@@ -7,11 +7,29 @@ Register::Register(size_t qubitSize, int initBit) {
     mQubits = (int *)calloc(sizeof(int), mNumberOfQubits);
     mNumberOfAmplitudes = (1 << mNumberOfQubits);
     QuantumGate matrix_(mNumberOfAmplitudes, std::vector<std::complex<double>>(1));
-    mAmpMatrix = matrix_;
-    mAmpMatrix[initBit][0] = 1;
+    _amplitudes = matrix_;
+    _amplitudes[initBit][0] = 1;
 }
-void Register::apply(QuantumGate gate) {
-    mAmpMatrix = dot_product_amplitudes(gate);
+
+void Register::apply(QuantumGate B) {
+    LOG_INFO("[TRACE] Register::apply(?)");
+
+    if (_amplitudes.size() != B.size()) {
+        fprintf(stdout, "Unable to apply. Expected GATE to match Register size: %i\n", _amplitudes.size());
+        return;
+    }
+
+    QuantumGate C(mNumberOfAmplitudes, std::vector<std::complex<double>>(1));
+
+    // Dot Product Formula: The element 𝐶𝑖𝑗 in the resulting matrix 𝐶 is computed by:
+    //                      taking the dot product of the i-th row of matrix 𝐴
+    //                      with the j-th column of matrix 𝐵
+    for (size_t i = 0; i < _amplitudes.size(); ++i) {
+        for (size_t j = 0; j < _amplitudes.size(); ++j) {
+            C[i][0] += B[i][j] * _amplitudes[j][0];
+        }
+    }
+    _amplitudes = std::move(C);
 }
 
 QuantumGate Register::tensor(QuantumGate A, QuantumGate B) {
@@ -49,25 +67,6 @@ QuantumGate Register::tensor(QuantumGate A, QuantumGate B) {
     return C;
 }
 
-QuantumGate Register::dot_product_amplitudes(QuantumGate gate) {
-    int j = 0;
-    int k = 0;
-
-    QuantumGate C(mNumberOfAmplitudes, std::vector<std::complex<double>>(1));
-
-    for (auto rowGate: gate) {
-        for (auto valueGate: rowGate) {
-            auto ampValue = mAmpMatrix[j][0];
-            C[k][0] += ampValue * valueGate;
-            j++;
-        }
-        j = 0;
-        k++;
-    }
-
-    return C;
-}
-
 void Register::printGate(QuantumGate gate) {
     for (auto row: gate) {
         for (auto value: row) {
@@ -80,7 +79,7 @@ void Register::printGate(QuantumGate gate) {
 
 void Register::printAmplitudes() {
     std::cout << "System: ";
-    for (auto row: mAmpMatrix) {
+    for (auto row: _amplitudes) {
         for (auto column: row) {
             std::cout << column << ' ';
         }

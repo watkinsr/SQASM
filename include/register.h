@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <complex>
+#include "Log.h"
 
 using QuantumGate = std::vector<std::vector<std::complex<double>>>;
 
@@ -13,11 +14,11 @@ class Register {
         int mNumberOfQubits;
         int mNumberOfAmplitudes;
         int *mQubits;
-        QuantumGate mAmpMatrix;
+        QuantumGate _amplitudes;
     public:
         Register(size_t qubitSize, int initBit);
+        QuantumGate getAmplitudes() { return _amplitudes; };
         void apply(QuantumGate gate);
-        QuantumGate dot_product_amplitudes(QuantumGate gate);
         void printAmplitudes();
         static QuantumGate tensor(QuantumGate A, QuantumGate B);
         const static QuantumGate HAD_GATE;

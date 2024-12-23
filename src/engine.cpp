@@ -30,7 +30,6 @@ int QuantumComputationEngine::peek(std::vector<std::string> args) {
 }
 
 int QuantumComputationEngine::apply(std::vector<std::string> args) {
-    QuantumGate gate;
     if (_reg_map.find(args[2]) == _reg_map.end()) {
         fprintf(stdout, "Unable to find register. Please provide correct register.\n");
         fprintf(stdout, "Current registers: [");
@@ -43,18 +42,25 @@ int QuantumComputationEngine::apply(std::vector<std::string> args) {
         fprintf(stdout, "]\n");
         return 1;
     }
+    Register& reg = _reg_map.at(args[2]);
     if (_gate_map.find(args[1]) == _gate_map.end()) {
-        gate = Register::getGate(args[1].c_str());
+        QuantumGate gate = Register::getGate(args[1].c_str());
         if (gate == Register::NO_GATE) {
             fprintf(stderr, "Cannot comply with apply command, please offer correct gate.\n");
             return 1;
         }
+        if (gate.size() * 2 == reg.getAmplitudes().size()) {
+            reg.apply(Register::tensor(gate, Register::ID_GATE));
+        } else {
+            reg.apply(gate);
+        }
+        reg.printAmplitudes();
     } else {
-        gate = _gate_map.at(args[1]);
+        QuantumGate gate = _gate_map.at(args[1]);
+        reg.apply(gate);
+        reg.printAmplitudes();
     }
-    auto reg = _reg_map.at(args[2]);
-    reg.apply(gate);
-    reg.printAmplitudes();
+
     return 1;
 }
 
@@ -62,11 +68,11 @@ int QuantumComputationEngine::formgate(std::vector<std::string> args) {
     auto gate1 = Register::getGate(args[2].c_str());
     auto gate2 = Register::getGate(args[3].c_str());
     auto U = Register::tensor(gate1, gate2);
-    _gate_map.insert(std::pair<std::string, QuantumGate>(args[1], U));
-    if (_gate_map.find(args[1]) == _gate_map.end()) {
-        fprintf(stdout, "Couldn't find variable.\n");
+    if (_gate_map.find(args[1]) != _gate_map.end()) {
+        _gate_map[args[1]] = U;
     } else {
-        Register::printGate(_gate_map[args[1]]);
+        _gate_map.insert(std::move(std::pair<std::string, QuantumGate>(args[1], U)));
     }
+    Register::printGate(_gate_map[args[1]]);
     return 1;
 }
